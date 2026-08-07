@@ -139,11 +139,11 @@ body {
   height: 2.25rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid color-mix(in srgb, var(--primary) 60%, transparent);
+  border: 1px solid var(--border);
   border-radius: 999px;
   background: color-mix(in srgb, var(--background) 82%, transparent);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary) 12%, transparent);
-  color: var(--primary);
+  box-shadow: 0 0 0 5px rgb(148 163 184 / 12%);
+  color: var(--muted-foreground);
   cursor: pointer;
   font-size: 0.625rem;
   font-weight: 700;
@@ -152,6 +152,22 @@ body {
     border-color 150ms ease,
     background-color 150ms ease,
     box-shadow 150ms ease;
+}
+
+.marcador-pais[data-nivel="alto"] {
+  border-color: color-mix(in srgb, var(--primary) 60%, transparent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+}
+
+.marcador-pais[data-nivel="medio"] {
+  border-color: rgb(251 191 36 / 60%);
+  box-shadow: 0 0 0 5px rgb(251 191 36 / 12%);
+  color: #fbbf24;
+}
+
+.marcador-pais[data-nivel="bajo"] {
+  border-color: rgb(148 163 184 / 50%);
 }
 
 .marcador-pais:hover {

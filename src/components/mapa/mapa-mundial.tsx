@@ -24,6 +24,24 @@ const etiquetasIndicadores: Record<IndicadorMapa, string> = {
   puntuacionTecnologica: "Puntuación tecnológica",
 };
 
+function obtenerNivelMarcador(pais: Pais, indicador: IndicadorMapa) {
+  const valores = paises.map((paisActual) => paisActual.indicadores[indicador]);
+  const minimo = Math.min(...valores);
+  const maximo = Math.max(...valores);
+  const proporcion =
+    maximo === minimo ? 1 : (pais.indicadores[indicador] - minimo) / (maximo - minimo);
+
+  if (proporcion >= 0.67) {
+    return "alto";
+  }
+
+  if (proporcion >= 0.34) {
+    return "medio";
+  }
+
+  return "bajo";
+}
+
 type PropiedadesMapaMundial = {
   paisSeleccionado: Pais | null;
   alSeleccionarPais: (pais: Pais | null) => void;
@@ -47,6 +65,7 @@ export function MapaMundial({
   indicadorActivo,
 }: PropiedadesMapaMundial) {
   const contenedorMapa = useRef<HTMLDivElement>(null);
+  const marcadores = useRef<Record<string, HTMLButtonElement>>({});
 
   useEffect(() => {
     if (!contenedorMapa.current) {
@@ -72,13 +91,27 @@ export function MapaMundial({
     };
 
     paises.forEach((pais) => {
-      new Marker({ element: crearMarcador(pais, seleccionarPais) })
-        .setLngLat(pais.coordenadas)
-        .addTo(mapa);
+      const marcador = crearMarcador(pais, seleccionarPais);
+      marcadores.current[pais.codigo] = marcador;
+
+      new Marker({ element: marcador }).setLngLat(pais.coordenadas).addTo(mapa);
     });
 
-    return () => mapa.remove();
+    return () => {
+      marcadores.current = {};
+      mapa.remove();
+    };
   }, [alSeleccionarPais]);
+
+  useEffect(() => {
+    paises.forEach((pais) => {
+      const marcador = marcadores.current[pais.codigo];
+
+      if (marcador) {
+        marcador.dataset.nivel = obtenerNivelMarcador(pais, indicadorActivo);
+      }
+    });
+  }, [indicadorActivo]);
 
   return (
     <div
@@ -93,6 +126,17 @@ export function MapaMundial({
         <p className="mt-1 text-sm text-muted-foreground">
           {etiquetasIndicadores[indicadorActivo]}
         </p>
+        <div className="mt-2 flex items-center gap-2 text-[0.65rem] text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <span className="size-1.5 rounded-full bg-primary" /> Alto
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="size-1.5 rounded-full bg-chart-3" /> Medio
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="size-1.5 rounded-full bg-muted-foreground" /> Bajo
+          </span>
+        </div>
       </div>
       {paisSeleccionado ? (
         <article className="absolute top-5 right-5 z-10 w-72 rounded-2xl border border-border bg-card/95 p-4 shadow-2xl shadow-black/30 backdrop-blur-md">

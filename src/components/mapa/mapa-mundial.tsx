@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { Map as MapaMapLibre, Marker, NavigationControl } from "maplibre-gl";
 
@@ -15,6 +15,11 @@ const formatoSalario = new Intl.NumberFormat("es-ES", {
   maximumFractionDigits: 0,
 });
 
+type PropiedadesMapaMundial = {
+  paisSeleccionado: Pais | null;
+  alSeleccionarPais: (pais: Pais | null) => void;
+};
+
 function crearMarcador(pais: Pais, alSeleccionar: (pais: Pais) => void) {
   const marcador = document.createElement("button");
   marcador.type = "button";
@@ -26,9 +31,8 @@ function crearMarcador(pais: Pais, alSeleccionar: (pais: Pais) => void) {
   return marcador;
 }
 
-export function MapaMundial() {
+export function MapaMundial({ paisSeleccionado, alSeleccionarPais }: PropiedadesMapaMundial) {
   const contenedorMapa = useRef<HTMLDivElement>(null);
-  const [paisSeleccionado, setPaisSeleccionado] = useState<Pais | null>(null);
 
   useEffect(() => {
     if (!contenedorMapa.current) {
@@ -48,19 +52,19 @@ export function MapaMundial() {
 
     mapa.addControl(new NavigationControl({ showCompass: false }), "bottom-right");
 
-    paises.forEach((pais) => {
-      const seleccionarPais = (paisSeleccionado: Pais) => {
-        setPaisSeleccionado(paisSeleccionado);
-        mapa.flyTo({ center: paisSeleccionado.coordenadas, zoom: 3.5, essential: true });
-      };
+    const seleccionarPais = (pais: Pais) => {
+      alSeleccionarPais(pais);
+      mapa.flyTo({ center: pais.coordenadas, zoom: 3.5, essential: true });
+    };
 
+    paises.forEach((pais) => {
       new Marker({ element: crearMarcador(pais, seleccionarPais) })
         .setLngLat(pais.coordenadas)
         .addTo(mapa);
     });
 
     return () => mapa.remove();
-  }, []);
+  }, [alSeleccionarPais]);
 
   return (
     <div
@@ -93,7 +97,7 @@ export function MapaMundial() {
             <button
               type="button"
               className="rounded-lg p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              onClick={() => setPaisSeleccionado(null)}
+              onClick={() => alSeleccionarPais(null)}
               aria-label={`Cerrar ficha de ${paisSeleccionado.nombre}`}
             >
               <X className="size-4" aria-hidden="true" />

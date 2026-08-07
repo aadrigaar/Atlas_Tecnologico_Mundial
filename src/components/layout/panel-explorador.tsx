@@ -1,5 +1,7 @@
 import { BarChart3, Building2, CircleDollarSign, Cpu, GraduationCap, Wifi } from "lucide-react";
 
+import type { Pais } from "@/types/pais";
+
 const indicadores = [
   { icono: CircleDollarSign, etiqueta: "Salarios", descripcion: "Ingeniería de software" },
   { icono: Building2, etiqueta: "Empresas", descripcion: "Tecnología y startups" },
@@ -9,7 +11,11 @@ const indicadores = [
   { icono: BarChart3, etiqueta: "Economía", descripcion: "Inversión y rankings" },
 ];
 
-export function PanelExplorador() {
+type PropiedadesPanelExplorador = {
+  paisSeleccionado: Pais | null;
+};
+
+export function PanelExplorador({ paisSeleccionado }: PropiedadesPanelExplorador) {
   return (
     <aside className="w-full border-b border-border bg-card/30 p-4 md:min-h-[calc(100dvh-4rem)] md:w-80 md:border-r md:border-b-0 md:p-5">
       <div className="rounded-2xl border border-border bg-card/70 p-4 shadow-2xl shadow-black/10">
@@ -42,14 +48,40 @@ export function PanelExplorador() {
         </ul>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/40 p-4">
-        <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-          Próximo paso
-        </p>
-        <p className="mt-2 text-sm leading-5 text-foreground">
-          Selecciono un país en el mapa para consultar su perfil tecnológico.
-        </p>
-      </div>
+      {paisSeleccionado ? (
+        <section className="mt-4 rounded-2xl border border-primary/25 bg-primary/5 p-4">
+          <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+            Perfil activo
+          </p>
+          <h3 className="mt-2 text-lg font-semibold tracking-tight">{paisSeleccionado.nombre}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {paisSeleccionado.capital} · {paisSeleccionado.continente}
+          </p>
+          <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-primary/15 pt-3">
+            <div>
+              <dt className="text-xs text-muted-foreground">Empresas</dt>
+              <dd className="mt-1 text-sm font-semibold">
+                {paisSeleccionado.indicadores.empresasTecnologicas.toLocaleString("es-ES")}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs text-muted-foreground">Trabajo remoto</dt>
+              <dd className="mt-1 text-sm font-semibold text-primary">
+                {paisSeleccionado.indicadores.trabajoRemoto}/100
+              </dd>
+            </div>
+          </dl>
+        </section>
+      ) : (
+        <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/40 p-4">
+          <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+            Próximo paso
+          </p>
+          <p className="mt-2 text-sm leading-5 text-foreground">
+            Selecciono un país en el mapa para consultar su perfil tecnológico.
+          </p>
+        </div>
+      )}
     </aside>
   );
 }

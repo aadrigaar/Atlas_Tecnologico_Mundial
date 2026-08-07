@@ -1,3 +1,4 @@
+import { RadarPerfilTecnologico } from "@/components/graficos/radar-perfil-tecnologico";
 import type { Pais } from "@/types/pais";
 
 const formatoSalario = new Intl.NumberFormat("es-ES", {
@@ -46,6 +47,7 @@ export function ResumenPais({ pais }: PropiedadesResumenPais) {
           </div>
         ))}
       </dl>
+      <RadarPerfilTecnologico pais={pais} />
     </section>
   );
 }

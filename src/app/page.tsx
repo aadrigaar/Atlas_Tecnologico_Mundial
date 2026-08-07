@@ -38,6 +38,7 @@ export default function Home() {
           alSeleccionarIndicador={setIndicadorActivo}
           paisesComparados={paisesComparados}
           alAlternarPaisComparado={alternarPaisComparado}
+          alSeleccionarPais={setPaisSeleccionado}
         />
         <section className="relative min-h-[32rem] flex-1">
           <MapaMundial

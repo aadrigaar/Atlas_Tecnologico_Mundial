@@ -3,6 +3,7 @@
 import { BarChart3, Building2, CircleDollarSign, Cpu, GraduationCap, Wifi } from "lucide-react";
 
 import { ResumenPais } from "@/components/paises/resumen-pais";
+import { RankingPaises } from "@/components/paises/ranking-paises";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
@@ -51,6 +52,7 @@ type PropiedadesPanelExplorador = {
   alSeleccionarIndicador: (indicador: IndicadorMapa) => void;
   paisesComparados: Pais[];
   alAlternarPaisComparado: (pais: Pais) => void;
+  alSeleccionarPais: (pais: Pais) => void;
 };
 
 export function PanelExplorador({
@@ -59,6 +61,7 @@ export function PanelExplorador({
   alSeleccionarIndicador,
   paisesComparados,
   alAlternarPaisComparado,
+  alSeleccionarPais,
 }: PropiedadesPanelExplorador) {
   return (
     <aside className="w-full border-b border-border bg-card/30 p-4 md:min-h-[calc(100dvh-4rem)] md:w-80 md:border-r md:border-b-0 md:p-5">
@@ -105,6 +108,8 @@ export function PanelExplorador({
           })}
         </ul>
       </div>
+
+      <RankingPaises indicador={indicadorActivo} alSeleccionarPais={alSeleccionarPais} />
 
       {paisSeleccionado ? (
         <ResumenPais

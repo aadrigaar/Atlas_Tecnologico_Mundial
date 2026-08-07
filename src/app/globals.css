@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "maplibre-gl/dist/maplibre-gl.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -97,4 +98,37 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+.maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 30%);
+}
+
+.maplibregl-ctrl-group button {
+  background-color: var(--card);
+}
+
+.maplibregl-ctrl-group button:hover {
+  background-color: var(--secondary);
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top-color: var(--border);
+}
+
+.maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+
+.maplibregl-ctrl-attrib {
+  background: color-mix(in srgb, var(--background) 82%, transparent);
+  color: var(--muted-foreground);
+}
+
+.maplibregl-ctrl-attrib a {
+  color: var(--foreground);
 }

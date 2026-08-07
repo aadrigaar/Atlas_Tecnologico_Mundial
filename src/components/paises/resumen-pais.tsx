@@ -1,4 +1,7 @@
+"use client";
+
 import { RadarPerfilTecnologico } from "@/components/graficos/radar-perfil-tecnologico";
+import { Button } from "@/components/ui/button";
 import type { Pais } from "@/types/pais";
 
 const formatoSalario = new Intl.NumberFormat("es-ES", {
@@ -15,9 +18,17 @@ const formatoNumero = new Intl.NumberFormat("es-ES", {
 
 type PropiedadesResumenPais = {
   pais: Pais;
+  estaComparado: boolean;
+  limiteComparadorAlcanzado: boolean;
+  alAlternarComparacion: (pais: Pais) => void;
 };
 
-export function ResumenPais({ pais }: PropiedadesResumenPais) {
+export function ResumenPais({
+  pais,
+  estaComparado,
+  limiteComparadorAlcanzado,
+  alAlternarComparacion,
+}: PropiedadesResumenPais) {
   const metricas = [
     { etiqueta: "Salario medio", valor: formatoSalario.format(pais.indicadores.salarioMedioUsd) },
     {
@@ -39,6 +50,20 @@ export function ResumenPais({ pais }: PropiedadesResumenPais) {
       <p className="mt-1 text-sm text-muted-foreground">
         {pais.capital} · {pais.continente}
       </p>
+      <Button
+        type="button"
+        variant={estaComparado ? "secondary" : "outline"}
+        size="sm"
+        className="mt-4 w-full"
+        disabled={!estaComparado && limiteComparadorAlcanzado}
+        onClick={() => alAlternarComparacion(pais)}
+      >
+        {estaComparado
+          ? "Quitar de la comparación"
+          : limiteComparadorAlcanzado
+            ? "Máximo de 2 países"
+            : "Añadir a la comparación"}
+      </Button>
       <dl className="mt-4 grid grid-cols-2 gap-2 border-t border-primary/15 pt-3">
         {metricas.map((metrica) => (
           <div key={metrica.etiqueta} className="rounded-xl bg-background/40 p-2.5">

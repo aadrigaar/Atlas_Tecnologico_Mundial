@@ -49,12 +49,16 @@ type PropiedadesPanelExplorador = {
   paisSeleccionado: Pais | null;
   indicadorActivo: IndicadorMapa;
   alSeleccionarIndicador: (indicador: IndicadorMapa) => void;
+  paisesComparados: Pais[];
+  alAlternarPaisComparado: (pais: Pais) => void;
 };
 
 export function PanelExplorador({
   paisSeleccionado,
   indicadorActivo,
   alSeleccionarIndicador,
+  paisesComparados,
+  alAlternarPaisComparado,
 }: PropiedadesPanelExplorador) {
   return (
     <aside className="w-full border-b border-border bg-card/30 p-4 md:min-h-[calc(100dvh-4rem)] md:w-80 md:border-r md:border-b-0 md:p-5">
@@ -63,6 +67,9 @@ export function PanelExplorador({
         <h2 className="mt-2 text-lg font-semibold tracking-tight">Indicadores globales</h2>
         <p className="mt-1 text-sm leading-5 text-muted-foreground">
           Analizo los datos que definen cada ecosistema tecnológico.
+        </p>
+        <p className="mt-3 text-xs font-medium text-muted-foreground">
+          Comparador: {paisesComparados.length}/2 países preparados
         </p>
 
         <ul className="mt-5 grid gap-2 sm:grid-cols-2 md:grid-cols-1">
@@ -100,7 +107,12 @@ export function PanelExplorador({
       </div>
 
       {paisSeleccionado ? (
-        <ResumenPais pais={paisSeleccionado} />
+        <ResumenPais
+          pais={paisSeleccionado}
+          estaComparado={paisesComparados.some((pais) => pais.codigo === paisSeleccionado.codigo)}
+          limiteComparadorAlcanzado={paisesComparados.length === 2}
+          alAlternarComparacion={alAlternarPaisComparado}
+        />
       ) : (
         <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/40 p-4">
           <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">

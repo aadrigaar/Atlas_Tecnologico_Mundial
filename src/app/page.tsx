@@ -11,6 +11,21 @@ import type { Pais } from "@/types/pais";
 export default function Home() {
   const [paisSeleccionado, setPaisSeleccionado] = useState<Pais | null>(null);
   const [indicadorActivo, setIndicadorActivo] = useState<IndicadorMapa>("puntuacionTecnologica");
+  const [paisesComparados, setPaisesComparados] = useState<Pais[]>([]);
+
+  function alternarPaisComparado(pais: Pais) {
+    setPaisesComparados((paisesActuales) => {
+      const paisYaComparado = paisesActuales.some(
+        (paisActual) => paisActual.codigo === pais.codigo,
+      );
+
+      if (paisYaComparado) {
+        return paisesActuales.filter((paisActual) => paisActual.codigo !== pais.codigo);
+      }
+
+      return paisesActuales.length < 2 ? [...paisesActuales, pais] : paisesActuales;
+    });
+  }
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -20,6 +35,8 @@ export default function Home() {
           paisSeleccionado={paisSeleccionado}
           indicadorActivo={indicadorActivo}
           alSeleccionarIndicador={setIndicadorActivo}
+          paisesComparados={paisesComparados}
+          alAlternarPaisComparado={alternarPaisComparado}
         />
         <section className="min-h-[32rem] flex-1">
           <MapaMundial

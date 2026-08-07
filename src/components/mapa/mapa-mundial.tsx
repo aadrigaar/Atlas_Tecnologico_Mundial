@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Map as MapaMapLibre, Marker, NavigationControl } from "maplibre-gl";
 
 import { paises } from "@/data/paises";
+import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
 const ESTILO_BASE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
@@ -14,10 +15,19 @@ const formatoSalario = new Intl.NumberFormat("es-ES", {
   notation: "compact",
   maximumFractionDigits: 0,
 });
+const etiquetasIndicadores: Record<IndicadorMapa, string> = {
+  salarioMedioUsd: "Salario medio",
+  empresasTecnologicas: "Empresas tecnológicas",
+  empresasIa: "Empresas de inteligencia artificial",
+  velocidadInternetMbps: "Velocidad de internet",
+  trabajoRemoto: "Trabajo remoto",
+  puntuacionTecnologica: "Puntuación tecnológica",
+};
 
 type PropiedadesMapaMundial = {
   paisSeleccionado: Pais | null;
   alSeleccionarPais: (pais: Pais | null) => void;
+  indicadorActivo: IndicadorMapa;
 };
 
 function crearMarcador(pais: Pais, alSeleccionar: (pais: Pais) => void) {
@@ -31,7 +41,11 @@ function crearMarcador(pais: Pais, alSeleccionar: (pais: Pais) => void) {
   return marcador;
 }
 
-export function MapaMundial({ paisSeleccionado, alSeleccionarPais }: PropiedadesMapaMundial) {
+export function MapaMundial({
+  paisSeleccionado,
+  alSeleccionarPais,
+  indicadorActivo,
+}: PropiedadesMapaMundial) {
   const contenedorMapa = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,10 +88,10 @@ export function MapaMundial({ paisSeleccionado, alSeleccionarPais }: Propiedades
       <div ref={contenedorMapa} className="absolute inset-0" />
       <div className="pointer-events-none absolute top-5 left-5 z-10 rounded-xl border border-border bg-background/80 px-3 py-2 backdrop-blur-md">
         <p className="text-xs font-semibold tracking-[0.16em] text-primary uppercase">
-          Vista global
+          Indicador activo
         </p>
         <p className="mt-1 text-sm text-muted-foreground">
-          Navego por el ecosistema tecnológico mundial.
+          {etiquetasIndicadores[indicadorActivo]}
         </p>
       </div>
       {paisSeleccionado ? (

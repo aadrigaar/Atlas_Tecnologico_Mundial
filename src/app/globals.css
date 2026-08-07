@@ -144,8 +144,23 @@ body {
   background: color-mix(in srgb, var(--background) 82%, transparent);
   box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary) 12%, transparent);
   color: var(--primary);
+  cursor: pointer;
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  pointer-events: none;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.marcador-pais:hover {
+  border-color: var(--primary);
+  background: var(--secondary);
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.marcador-pais:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
 }

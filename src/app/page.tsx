@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      <CabeceraPrincipal />
+      <CabeceraPrincipal alSeleccionarPais={setPaisSeleccionado} />
       <main className="min-h-[calc(100dvh-4rem)] md:flex">
         <PanelExplorador
           paisSeleccionado={paisSeleccionado}

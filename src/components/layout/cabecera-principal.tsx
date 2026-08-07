@@ -1,7 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { Globe, MapPin } from "lucide-react";
 
-export function CabeceraPrincipal() {
+import { BuscadorPaises } from "@/components/paises/buscador-paises";
+import type { Pais } from "@/types/pais";
+
+type PropiedadesCabeceraPrincipal = {
+  alSeleccionarPais: (pais: Pais) => void;
+};
+
+export function CabeceraPrincipal({ alSeleccionarPais }: PropiedadesCabeceraPrincipal) {
   return (
     <header className="border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 sm:px-6">
@@ -17,9 +26,12 @@ export function CabeceraPrincipal() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-1.5 text-xs font-medium text-muted-foreground">
-          <MapPin className="size-3.5 text-primary" aria-hidden="true" />
-          <span className="hidden sm:inline">Explorador global</span>
+        <div className="flex items-center gap-3">
+          <BuscadorPaises alSeleccionarPais={alSeleccionarPais} />
+          <div className="flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-1.5 text-xs font-medium text-muted-foreground">
+            <MapPin className="size-3.5 text-primary" aria-hidden="true" />
+            <span className="hidden sm:inline">Explorador global</span>
+          </div>
         </div>
       </div>
     </header>

@@ -65,6 +65,7 @@ export function MapaMundial({
   indicadorActivo,
 }: PropiedadesMapaMundial) {
   const contenedorMapa = useRef<HTMLDivElement>(null);
+  const mapaActual = useRef<MapaMapLibre | null>(null);
   const marcadores = useRef<Record<string, HTMLButtonElement>>({});
 
   useEffect(() => {
@@ -82,12 +83,12 @@ export function MapaMundial({
       dragRotate: false,
       pitchWithRotate: false,
     });
+    mapaActual.current = mapa;
 
     mapa.addControl(new NavigationControl({ showCompass: false }), "bottom-right");
 
     const seleccionarPais = (pais: Pais) => {
       alSeleccionarPais(pais);
-      mapa.flyTo({ center: pais.coordenadas, zoom: 3.5, essential: true });
     };
 
     paises.forEach((pais) => {
@@ -99,9 +100,20 @@ export function MapaMundial({
 
     return () => {
       marcadores.current = {};
+      mapaActual.current = null;
       mapa.remove();
     };
   }, [alSeleccionarPais]);
+
+  useEffect(() => {
+    if (paisSeleccionado && mapaActual.current) {
+      mapaActual.current.flyTo({
+        center: paisSeleccionado.coordenadas,
+        zoom: 3.5,
+        essential: true,
+      });
+    }
+  }, [paisSeleccionado]);
 
   useEffect(() => {
     paises.forEach((pais) => {

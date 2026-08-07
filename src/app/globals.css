@@ -132,3 +132,20 @@ body {
 .maplibregl-ctrl-attrib a {
   color: var(--foreground);
 }
+
+.marcador-pais {
+  display: flex;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--primary) 60%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background) 82%, transparent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}

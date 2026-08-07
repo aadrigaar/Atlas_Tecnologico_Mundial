@@ -1,9 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Map as MapaMapLibre, NavigationControl } from "maplibre-gl";
+import { Map as MapaMapLibre, Marker, NavigationControl } from "maplibre-gl";
+
+import { paises } from "@/data/paises";
 
 const ESTILO_BASE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+
+function crearMarcador(codigoPais: string) {
+  const marcador = document.createElement("div");
+  marcador.className = "marcador-pais";
+  marcador.setAttribute("aria-hidden", "true");
+  marcador.textContent = codigoPais;
+
+  return marcador;
+}
 
 export function MapaMundial() {
   const contenedorMapa = useRef<HTMLDivElement>(null);
@@ -25,6 +36,10 @@ export function MapaMundial() {
     });
 
     mapa.addControl(new NavigationControl({ showCompass: false }), "bottom-right");
+
+    paises.forEach((pais) => {
+      new Marker({ element: crearMarcador(pais.codigo) }).setLngLat(pais.coordenadas).addTo(mapa);
+    });
 
     return () => mapa.remove();
   }, []);

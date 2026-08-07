@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CabeceraPrincipal } from "@/components/layout/cabecera-principal";
 import { PanelExplorador } from "@/components/layout/panel-explorador";
 import { MapaMundial } from "@/components/mapa/mapa-mundial";
+import { ComparadorPaises } from "@/components/paises/comparador-paises";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
@@ -38,12 +39,13 @@ export default function Home() {
           paisesComparados={paisesComparados}
           alAlternarPaisComparado={alternarPaisComparado}
         />
-        <section className="min-h-[32rem] flex-1">
+        <section className="relative min-h-[32rem] flex-1">
           <MapaMundial
             paisSeleccionado={paisSeleccionado}
             alSeleccionarPais={setPaisSeleccionado}
             indicadorActivo={indicadorActivo}
           />
+          <ComparadorPaises paises={paisesComparados} />
         </section>
       </main>
     </div>

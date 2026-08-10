@@ -13,17 +13,57 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Atlas Tecnológico Mundial",
-  description: "Explora el ecosistema tecnológico mundial.",
+  title: {
+    default: "Atlas Tecnológico Mundial | Explorador de Ecosistemas Tech & Salarios",
+    template: "%s | Atlas Tecnológico Mundial",
+  },
+  description:
+    "Plataforma SaaS interactiva para analizar salarios de ingeniería de software, madurez tecnológica, coste de vida y hubs de innovación en 32 países del mundo.",
+  keywords: [
+    "Atlas Tecnológico Mundial",
+    "Ecosistemas Tech",
+    "Salarios Software Engineer",
+    "Trabajo Remoto",
+    "Nómadas Digitales",
+    "FiscalMap",
+    "Mapa Coroplético",
+    "Ingeniería Informática",
+    "Developer Salary Index",
+  ],
+  authors: [{ name: "Adrián García Arranz", url: "https://github.com" }],
+  creator: "Adrián García Arranz",
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://atlas-tecnologico.vercel.app",
+    title: "Atlas Tecnológico Mundial | Explorador de Ecosistemas Tech",
+    description:
+      "Analiza el poder adquisitivo real de software engineers, salarios por seniority y hubs de tecnología en 32 países con mapas coropléticos e inteligencia visual.",
+    siteName: "Atlas Tecnológico Mundial",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Atlas Tecnológico Mundial",
+    description:
+      "Explora el ecosistema tecnológico mundial, salarios de software engineering y poder adquisitivo por país.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="es"
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-foreground">{children}</body>
     </html>
   );
 }

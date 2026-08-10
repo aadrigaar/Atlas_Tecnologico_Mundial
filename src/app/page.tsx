@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { CabeceraPrincipal, type ModoVista } from "@/components/layout/cabecera-principal";
 import { PanelExplorador } from "@/components/layout/panel-explorador";
@@ -57,6 +57,23 @@ export default function Home() {
       setNotificacion(null);
     }, 3000);
   }
+
+  // Atajos de teclado para navegación rápida (1: Mapa, 2: Matriz, 3: Tabla)
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (
+        document.activeElement?.tagName === "INPUT" ||
+        document.activeElement?.tagName === "TEXTAREA"
+      ) {
+        return;
+      }
+      if (e.key === "1") setModoVista("mapa");
+      if (e.key === "2") setModoVista("matriz");
+      if (e.key === "3") setModoVista("tabla");
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   function alternarPaisComparado(pais: Pais) {
     setPaisesComparados((paisesActuales) => {

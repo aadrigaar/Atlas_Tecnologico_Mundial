@@ -120,7 +120,7 @@ export default function Home() {
 
       {/* Contenido principal según modo de vista */}
       {modoVista === "mapa" && (
-        <main className="min-h-[calc(100dvh-4rem)] md:flex">
+        <main className="flex flex-col min-h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] md:flex-row">
           <PanelExplorador
             paisSeleccionado={paisSeleccionado}
             indicadorActivo={indicadorActivo}
@@ -130,7 +130,7 @@ export default function Home() {
             alSeleccionarPais={seleccionarPaisGeneral}
             alAbrirInformePais={abrirInformePais}
           />
-          <section className="relative min-h-[32rem] flex-1">
+          <section className="relative h-[calc(100dvh-4rem)] min-h-[32rem] w-full flex-1 md:h-full">
             <MapaMundial
               paisSeleccionado={paisSeleccionado}
               alSeleccionarPais={seleccionarPaisGeneral}

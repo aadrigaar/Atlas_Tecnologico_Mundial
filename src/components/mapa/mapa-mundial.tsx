@@ -10,12 +10,45 @@ import {
   type StyleSpecification,
   type MapLayerMouseEvent,
 } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 import { paises } from "@/data/paises";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
-const ESTILO_BASE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+// Estilo base inline con tiles raster CartoDB Dark Matter: 100% fiable, sin CORS y sin fallos de CDN
+const ESTILO_BASE: StyleSpecification = {
+  version: 8,
+  sources: {
+    "carto-dark": {
+      type: "raster",
+      tiles: [
+        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+      ],
+      tileSize: 256,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxzoom: 19,
+    },
+  },
+  layers: [
+    {
+      id: "background",
+      type: "background",
+      paint: { "background-color": "#07111f" },
+    },
+    {
+      id: "carto-dark-tiles",
+      type: "raster",
+      source: "carto-dark",
+      paint: { "raster-opacity": 1 },
+    },
+  ],
+};
+
 const GEOJSON_URL =
   "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
 
@@ -43,7 +76,7 @@ const etiquetasIndicadores: Record<IndicadorMapa, string> = {
 // ─── Escala de colores tipo coroplético ───
 
 const COLORES_ESCALA = [
-  "#1a1f35", // sin datos / base
+  "transparent", // sin datos / países fuera del dataset
   "#1b3a4b", // muy bajo
   "#1a5c6b", // bajo
   "#1b8a7a", // medio-bajo
@@ -158,12 +191,12 @@ export function MapaMundial({
 
     // Construir expresión match para colorear cada país
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const matchExpr: any[] = ["match", ["get", "ISO_A2"]];
+    const matchExpr: any[] = ["match", ["coalesce", ["get", "ISO_A2"], ["get", "ISO_A2_EH"], ""]];
     paises.forEach((pais) => {
       matchExpr.push(pais.codigoIso2);
       matchExpr.push(obtenerColorPais(pais, indicador));
     });
-    matchExpr.push(COLORES_ESCALA[0]); // color por defecto
+    matchExpr.push("rgba(0, 0, 0, 0)"); // Transparente para países fuera de nuestro dataset
 
     mapa.setPaintProperty("paises-fill", "fill-color", matchExpr as unknown as string);
   }, []);
@@ -174,7 +207,7 @@ export function MapaMundial({
 
     const mapa = new MapaMapLibre({
       container: contenedorMapa.current,
-      style: ESTILO_BASE as string | StyleSpecification,
+      style: ESTILO_BASE,
       center: [10, 24],
       zoom: 1.25,
       minZoom: 1,
@@ -183,6 +216,16 @@ export function MapaMundial({
       pitchWithRotate: false,
     });
     mapaActual.current = mapa;
+
+    // ResizeObserver para asegurar que el canvas se adapte si el contenedor cambia de tamaño
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapaActual.current) {
+        mapaActual.current.resize();
+      }
+    });
+    if (contenedorMapa.current) {
+      resizeObserver.observe(contenedorMapa.current);
+    }
 
     mapa.addControl(new NavigationControl({ showCompass: false }), "bottom-right");
 
@@ -199,6 +242,8 @@ export function MapaMundial({
 
     // Cargar GeoJSON y crear capa coroplética
     mapa.on("load", async () => {
+      mapa.resize();
+
       try {
         const response = await fetch(GEOJSON_URL);
         const geojson = await response.json();
@@ -208,7 +253,10 @@ export function MapaMundial({
           data: geojson,
         });
 
-        // Capa de relleno debajo de las etiquetas
+        // Insertar por debajo de la capa de símbolos si existe
+        const symbolLayerId = mapa.getStyle().layers?.find((l) => l.type === "symbol")?.id;
+
+        // Capa de relleno coroplético
         mapa.addLayer(
           {
             id: "paises-fill",
@@ -216,28 +264,27 @@ export function MapaMundial({
             source: "paises-geojson",
             paint: {
               "fill-color": COLORES_ESCALA[0],
-              "fill-opacity": 0.6,
+              "fill-opacity": 0.65,
             },
           },
-          // Insertar debajo de la primera capa de etiquetas
-          mapa.getStyle().layers?.find((l) => l.type === "symbol")?.id,
+          symbolLayerId,
         );
 
-        // Borde sutil
+        // Borde sutil entre países
         mapa.addLayer(
           {
             id: "paises-border",
             type: "line",
             source: "paises-geojson",
             paint: {
-              "line-color": "#ffffff12",
+              "line-color": "#ffffff1a",
               "line-width": 0.5,
             },
           },
-          mapa.getStyle().layers?.find((l) => l.type === "symbol")?.id,
+          symbolLayerId,
         );
 
-        // Capa de hover
+        // Capa de hover (highlight al pasar el ratón)
         mapa.addLayer(
           {
             id: "paises-hover",
@@ -249,7 +296,7 @@ export function MapaMundial({
             },
             filter: ["==", "ISO_A2", ""],
           },
-          mapa.getStyle().layers?.find((l) => l.type === "symbol")?.id,
+          symbolLayerId,
         );
 
         // Aplicar colores iniciales
@@ -261,7 +308,7 @@ export function MapaMundial({
           if (iso && mapaIso2.current.has(iso)) {
             mapa.getCanvas().style.cursor = "pointer";
             mapa.setFilter("paises-hover", ["==", "ISO_A2", iso]);
-            mapa.setPaintProperty("paises-hover", "fill-opacity", 0.15);
+            mapa.setPaintProperty("paises-hover", "fill-opacity", 0.2);
           }
         });
 
@@ -281,12 +328,12 @@ export function MapaMundial({
           }
         });
       } catch {
-        // Si falla el GeoJSON, el mapa sigue funcionando con marcadores
         console.warn("No se pudo cargar el GeoJSON de países");
       }
     });
 
     return () => {
+      resizeObserver.disconnect();
       marcadores.current = {};
       mapaActual.current = null;
       mapa.remove();

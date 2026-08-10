@@ -149,6 +149,21 @@ src/
 
 ---
 
+## 📌 Limitaciones Actuales & Decisiones Técnicas
+
+- **Datos de Demostración**: El producto utiliza un conjunto de datos estáticos cuidadosamente tipados y estructurados (`src/data/paises.ts`) para garantizar respuestas instantáneas en el frontend sin latencia de red.
+- **Renderizado del Mapa**: La capa coroplética obtiene los polígonos GeoJSON de la CDN de Natural Earth al iniciar el componente del mapa, manteniendo un fallback por marcadores en caso de desconexión.
+
+---
+
+## 🔮 Futuras Mejoras
+
+- [ ] **API Backend**: Integrar una API en Node.js/Go para consultar datos en vivo desde bases de datos externas (como Numbeo o Github Jobs API).
+- [ ] **Histórico Temporal**: Incorporar gráficos de líneas para mostrar la evolución salarial a lo largo de los últimos 5 años.
+- [ ] **Marcadores Personalizados**: Permitir al usuario guardar sus países favoritos o crear rutas de migración laboral.
+
+---
+
 ## 🌐 Despliegue en Producción
 
 El proyecto está preparado para desplegarse de forma óptima en **Vercel**:

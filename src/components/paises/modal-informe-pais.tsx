@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -51,6 +51,19 @@ export function ModalInformePais({
 }: PropiedadesModalInformePais) {
   const [pestañaActiva, setPestañaActiva] = useState<PestañaModal>("general");
 
+  // Esc para cerrar modal
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        alCerrar();
+      }
+    }
+    if (pais) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [pais, alCerrar]);
+
   if (!pais) return null;
 
   const poderAdquisitivo = calcularPoderAdquisitivo(pais);
@@ -88,6 +101,9 @@ export function ModalInformePais({
 
         {/* Modal Container */}
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Informe detallado de ${pais.nombre}`}
           initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 16 }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Scale, Award, Copy, Check, Briefcase, Layers, Sparkles } from "lucide-react";
 import {
@@ -50,6 +50,19 @@ export function ModalComparadorAvanzado({
 }: PropiedadesModalComparadorAvanzado) {
   const [copiado, setCopiado] = useState(false);
   const [pestañaActiva, setPestañaActiva] = useState<"resumen" | "radar" | "salarios">("resumen");
+
+  // Esc para cerrar modal
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        alCerrar();
+      }
+    }
+    if (paises.length > 0) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [paises.length, alCerrar]);
 
   if (paises.length === 0) return null;
 
@@ -171,6 +184,9 @@ export function ModalComparadorAvanzado({
         />
 
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Comparativa detallada entre países"
           initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 16 }}

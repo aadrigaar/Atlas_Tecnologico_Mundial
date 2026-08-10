@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { BarChart3, Building2, CircleDollarSign, Cpu, GraduationCap, Wifi } from "lucide-react";
+import { BarChart3, Building2, CircleDollarSign, Cpu, Laptop, Wifi } from "lucide-react";
 
 import { ResumenPais } from "@/components/paises/resumen-pais";
 import { RankingPaises } from "@/components/paises/ranking-paises";
@@ -34,7 +34,7 @@ const indicadores = [
     descripcion: "Velocidad de internet",
   },
   {
-    icono: GraduationCap,
+    icono: Laptop,
     indicador: "trabajoRemoto",
     etiqueta: "Trabajo remoto",
     descripcion: "Flexibilidad laboral",

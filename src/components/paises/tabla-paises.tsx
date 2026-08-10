@@ -128,9 +128,11 @@ export function TablaPaises({
             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
+              id="tabla-buscador"
               value={consulta}
               onChange={(e) => setConsulta(e.target.value)}
               placeholder="Buscar país, hub o ciudad..."
+              aria-label="Buscar país en la tabla"
               className="h-9 w-full rounded-xl border border-border bg-secondary/60 pr-3 pl-9 text-xs text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-2 focus:ring-primary/15"
             />
           </div>
@@ -221,100 +223,127 @@ export function TablaPaises({
               </tr>
             </thead>
             <tbody className="divide-y divide-border/60">
-              {datosOrdenados.map((pais) => {
-                const estaComp = paisesComparados.some((p) => p.codigo === pais.codigo);
-                const podAdq = calcularPoderAdquisitivo(pais);
+              {datosOrdenados.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="px-4 py-12 text-center">
+                    <p className="text-sm text-muted-foreground">
+                      No se encontraron países con los criterios actuales.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setConsulta("");
+                        setContinenteFiltro("Todos");
+                      }}
+                      className="mt-2 text-xs font-semibold text-primary hover:underline"
+                    >
+                      Limpiar filtros
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                datosOrdenados.map((pais) => {
+                  const estaComp = paisesComparados.some((p) => p.codigo === pais.codigo);
+                  const podAdq = calcularPoderAdquisitivo(pais);
 
-                return (
-                  <tr key={pais.codigo} className="transition-colors hover:bg-secondary/40">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <span className="flex size-7 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 font-bold text-primary">
-                          {pais.codigoIso2}
-                        </span>
-                        <div>
-                          <p className="font-semibold text-foreground">{pais.nombre}</p>
-                          <p className="text-[0.65rem] text-muted-foreground">{pais.capital}</p>
+                  return (
+                    <tr key={pais.codigo} className="transition-colors hover:bg-secondary/40">
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <span className="flex size-7 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 font-bold text-primary">
+                            {pais.codigoIso2}
+                          </span>
+                          <div>
+                            <p className="font-semibold text-foreground">{pais.nombre}</p>
+                            <p className="text-[0.65rem] text-muted-foreground">{pais.capital}</p>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="rounded-lg bg-secondary/80 px-2 py-1 text-[0.68rem] font-medium text-muted-foreground">
-                        {pais.continente}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 font-bold text-foreground">
-                      {formatoSalario.format(pais.indicadores.salarioMedioUsd)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="h-1.5 w-16 overflow-hidden rounded-full bg-secondary">
-                          <div
-                            className="h-full bg-primary"
-                            style={{ width: `${pais.indicadores.puntuacionTecnologica}%` }}
-                          />
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="rounded-lg bg-secondary/80 px-2 py-1 text-[0.68rem] font-medium text-muted-foreground">
+                          {pais.continente}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 font-bold text-foreground">
+                        {formatoSalario.format(pais.indicadores.salarioMedioUsd)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <div className="h-1.5 w-16 overflow-hidden rounded-full bg-secondary">
+                            <div
+                              className="h-full bg-primary"
+                              style={{ width: `${pais.indicadores.puntuacionTecnologica}%` }}
+                            />
+                          </div>
+                          <span className="font-bold text-primary">
+                            {pais.indicadores.puntuacionTecnologica}
+                          </span>
                         </div>
-                        <span className="font-bold text-primary">
-                          {pais.indicadores.puntuacionTecnologica}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`font-semibold ${podAdq >= 60 ? "text-primary" : podAdq >= 40 ? "text-chart-3" : "text-muted-foreground"}`}
+                        >
+                          {podAdq}/100
                         </span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`font-semibold ${podAdq >= 60 ? "text-primary" : podAdq >= 40 ? "text-chart-3" : "text-muted-foreground"}`}
-                      >
-                        {podAdq}/100
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 font-medium text-foreground">
-                      {pais.indicadores.velocidadInternetMbps} Mbps
-                    </td>
-                    <td className="px-4 py-3">
-                      {pais.ecosistema.visaNomadaDigital ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[0.65rem] font-semibold text-primary">
-                          <CheckCircle2 className="size-3" /> Sí
-                        </span>
-                      ) : (
-                        <span className="text-[0.65rem] text-muted-foreground">No</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="xs"
-                          onClick={() => alSeleccionarPais(pais)}
-                          title="Ver en mapa"
-                        >
-                          <MapPin className="size-3.5 text-primary" />
-                        </Button>
-                        <Button
-                          type="button"
-                          variant={estaComp ? "secondary" : "outline"}
-                          size="xs"
-                          onClick={() => alAlternarComparacion(pais)}
-                          title={estaComp ? "Quitar de comparación" : "Comparar"}
-                        >
-                          {estaComp ? (
-                            <Check className="size-3.5 text-primary" />
-                          ) : (
-                            <Plus className="size-3.5" />
-                          )}
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="default"
-                          size="xs"
-                          onClick={() => alAbrirInformePais(pais)}
-                        >
-                          <FileText className="size-3.5 mr-1" /> Informe
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                      </td>
+                      <td className="px-4 py-3 font-medium text-foreground">
+                        {pais.indicadores.velocidadInternetMbps} Mbps
+                      </td>
+                      <td className="px-4 py-3">
+                        {pais.ecosistema.visaNomadaDigital ? (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[0.65rem] font-semibold text-primary">
+                            <CheckCircle2 className="size-3" /> Sí
+                          </span>
+                        ) : (
+                          <span className="text-[0.65rem] text-muted-foreground">No</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="xs"
+                            onClick={() => alSeleccionarPais(pais)}
+                            aria-label={`Ver ${pais.nombre} en el mapa`}
+                            title="Ver en mapa"
+                          >
+                            <MapPin className="size-3.5 text-primary" />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={estaComp ? "secondary" : "outline"}
+                            size="xs"
+                            onClick={() => alAlternarComparacion(pais)}
+                            aria-label={
+                              estaComp
+                                ? `Quitar ${pais.nombre} de la comparación`
+                                : `Comparar ${pais.nombre}`
+                            }
+                            title={estaComp ? "Quitar de comparación" : "Comparar"}
+                          >
+                            {estaComp ? (
+                              <Check className="size-3.5 text-primary" />
+                            ) : (
+                              <Plus className="size-3.5" />
+                            )}
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="default"
+                            size="xs"
+                            onClick={() => alAbrirInformePais(pais)}
+                            aria-label={`Ver informe de ${pais.nombre}`}
+                          >
+                            <FileText className="size-3.5 mr-1" /> Informe
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>

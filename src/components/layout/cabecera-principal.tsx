@@ -46,6 +46,8 @@ export function CabeceraPrincipal({
           <button
             type="button"
             onClick={() => alCambiarModoVista("mapa")}
+            aria-label="Vista Mapa"
+            aria-current={modoVistaActivo === "mapa" ? "page" : undefined}
             className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
               modoVistaActivo === "mapa"
                 ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
@@ -59,6 +61,8 @@ export function CabeceraPrincipal({
           <button
             type="button"
             onClick={() => alCambiarModoVista("matriz")}
+            aria-label="Vista Matriz de Valor"
+            aria-current={modoVistaActivo === "matriz" ? "page" : undefined}
             className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
               modoVistaActivo === "matriz"
                 ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
@@ -72,6 +76,8 @@ export function CabeceraPrincipal({
           <button
             type="button"
             onClick={() => alCambiarModoVista("tabla")}
+            aria-label="Vista Tabla de Ecosistemas"
+            aria-current={modoVistaActivo === "tabla" ? "page" : undefined}
             className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
               modoVistaActivo === "tabla"
                 ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
@@ -89,6 +95,11 @@ export function CabeceraPrincipal({
             <button
               type="button"
               onClick={alAbrirFiltros}
+              aria-label={
+                hayFiltrosActivos
+                  ? "Filtros activos — abrir panel de filtros"
+                  : "Abrir panel de filtros"
+              }
               className={`relative flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all shadow-sm ${
                 hayFiltrosActivos
                   ? "border-primary bg-primary/20 text-primary"
@@ -105,6 +116,7 @@ export function CabeceraPrincipal({
             <button
               type="button"
               onClick={alAbrirEstadisticasGlobales}
+              aria-label="Abrir panel de insights globales"
               className="flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary/20 shadow-sm"
             >
               <Sparkles className="size-3.5" />

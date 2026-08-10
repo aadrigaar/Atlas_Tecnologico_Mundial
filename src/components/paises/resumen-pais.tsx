@@ -81,7 +81,7 @@ export function ResumenPais({
           {estaComparado
             ? "Quitar de la comparación"
             : limiteComparadorAlcanzado
-              ? "Máximo de 2 países"
+              ? "Máximo de 3 países"
               : "+ Añadir a la comparación"}
         </Button>
       </div>

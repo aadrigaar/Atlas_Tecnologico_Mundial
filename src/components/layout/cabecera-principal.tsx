@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, Map, BarChart2, Table } from "lucide-react";
+import { Globe, Map, BarChart2, Table, Sparkles } from "lucide-react";
 
 import { BuscadorPaises } from "@/components/paises/buscador-paises";
 import type { Pais } from "@/types/pais";
@@ -12,12 +12,14 @@ type PropiedadesCabeceraPrincipal = {
   alSeleccionarPais: (pais: Pais) => void;
   modoVistaActivo: ModoVista;
   alCambiarModoVista: (modo: ModoVista) => void;
+  alAbrirEstadisticasGlobales?: () => void;
 };
 
 export function CabeceraPrincipal({
   alSeleccionarPais,
   modoVistaActivo,
   alCambiarModoVista,
+  alAbrirEstadisticasGlobales,
 }: PropiedadesCabeceraPrincipal) {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl">
@@ -77,8 +79,19 @@ export function CabeceraPrincipal({
           </button>
         </nav>
 
-        {/* Buscador */}
-        <div className="flex items-center gap-3">
+        {/* Acciones & Buscador */}
+        <div className="flex items-center gap-2.5">
+          {alAbrirEstadisticasGlobales && (
+            <button
+              type="button"
+              onClick={alAbrirEstadisticasGlobales}
+              className="flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary/20 shadow-sm"
+            >
+              <Sparkles className="size-3.5" />
+              <span className="hidden md:inline">Insights Globales</span>
+            </button>
+          )}
+
           <BuscadorPaises alSeleccionarPais={alSeleccionarPais} />
         </div>
       </div>

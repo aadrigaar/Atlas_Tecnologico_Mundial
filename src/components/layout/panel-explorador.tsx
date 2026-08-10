@@ -80,7 +80,7 @@ export function PanelExplorador({
           <div className="mt-3 flex items-center gap-2 rounded-lg bg-primary/10 px-2.5 py-1.5">
             <div className="size-1.5 rounded-full bg-primary" />
             <p className="text-xs font-medium text-primary">
-              Comparador: {paisesComparados.length}/2 países
+              Comparador: {paisesComparados.length}/3 países
             </p>
           </div>
         )}
@@ -145,7 +145,7 @@ export function PanelExplorador({
               estaComparado={paisesComparados.some(
                 (pais) => pais.codigo === paisSeleccionado.codigo,
               )}
-              limiteComparadorAlcanzado={paisesComparados.length === 2}
+              limiteComparadorAlcanzado={paisesComparados.length === 3}
               alAlternarComparacion={alAlternarPaisComparado}
               alAbrirInforme={alAbrirInformePais}
             />

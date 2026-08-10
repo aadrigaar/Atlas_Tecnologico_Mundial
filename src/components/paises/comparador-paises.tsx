@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Maximize2 } from "lucide-react";
 import type { Pais } from "@/types/pais";
 
 const formatoSalario = new Intl.NumberFormat("es-ES", {
@@ -23,12 +23,12 @@ const metricas = [
     formatear: (valor: number) => formatoSalario.format(valor),
   },
   {
-    etiqueta: "Empresas tecnológicas",
+    etiqueta: "Empresas tech",
     obtenerValor: (pais: Pais) => pais.indicadores.empresasTecnologicas,
     formatear: (valor: number) => formatoNumero.format(valor),
   },
   {
-    etiqueta: "Empresas de IA",
+    etiqueta: "Empresas IA",
     obtenerValor: (pais: Pais) => pais.indicadores.empresasIa,
     formatear: (valor: number) => formatoNumero.format(valor),
   },
@@ -38,12 +38,7 @@ const metricas = [
     formatear: (valor: number) => `${valor} Mbps`,
   },
   {
-    etiqueta: "Trabajo remoto",
-    obtenerValor: (pais: Pais) => pais.indicadores.trabajoRemoto,
-    formatear: (valor: number) => `${valor}/100`,
-  },
-  {
-    etiqueta: "Puntuación tecnológica",
+    etiqueta: "Puntuación",
     obtenerValor: (pais: Pais) => pais.indicadores.puntuacionTecnologica,
     formatear: (valor: number) => `${valor}/100`,
   },
@@ -52,14 +47,17 @@ const metricas = [
 type PropiedadesComparadorPaises = {
   paises: Pais[];
   alCerrar: () => void;
+  alAbrirComparadorAvanzado?: () => void;
 };
 
-export function ComparadorPaises({ paises, alCerrar }: PropiedadesComparadorPaises) {
-  if (paises.length !== 2) {
+export function ComparadorPaises({
+  paises,
+  alCerrar,
+  alAbrirComparadorAvanzado,
+}: PropiedadesComparadorPaises) {
+  if (paises.length < 2) {
     return null;
   }
-
-  const [primerPais, segundoPais] = paises;
 
   return (
     <AnimatePresence>
@@ -71,18 +69,28 @@ export function ComparadorPaises({ paises, alCerrar }: PropiedadesComparadorPais
         className="absolute bottom-5 left-1/2 z-10 w-[calc(100%-2.5rem)] max-w-2xl -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card/90 shadow-2xl shadow-black/30 backdrop-blur-md"
         aria-label="Comparativa de países"
       >
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+        <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
           <div>
-            <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+            <p className="text-[0.65rem] font-semibold tracking-[0.14em] text-primary uppercase">
               Comparativa rápida
             </p>
-            <h2 className="mt-1 text-sm font-medium text-foreground">
-              {primerPais.nombre} vs {segundoPais.nombre}
+            <h2 className="text-xs font-semibold text-foreground">
+              {paises.map((p) => p.nombre).join(" vs ")}
             </h2>
           </div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-              2 países
+            {alAbrirComparadorAvanzado && (
+              <button
+                type="button"
+                onClick={alAbrirComparadorAvanzado}
+                className="flex items-center gap-1 rounded-lg border border-primary/30 bg-primary/10 px-2.5 py-1 text-[0.7rem] font-semibold text-primary transition-colors hover:bg-primary/20"
+              >
+                <Maximize2 className="size-3" />
+                <span>Informe Comparativo</span>
+              </button>
+            )}
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[0.68rem] font-semibold text-primary">
+              {paises.length} países
             </span>
             <button
               type="button"
@@ -96,41 +104,30 @@ export function ComparadorPaises({ paises, alCerrar }: PropiedadesComparadorPais
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[34rem] text-left text-xs">
+          <table className="w-full min-w-[28rem] text-left text-xs">
             <thead className="bg-background/40 text-muted-foreground">
               <tr>
-                <th className="px-4 py-2.5 font-medium">Indicador</th>
-                <th className="px-4 py-2.5 font-medium">{primerPais.nombre}</th>
-                <th className="px-4 py-2.5 font-medium">{segundoPais.nombre}</th>
+                <th className="px-3 py-2 font-medium">Indicador</th>
+                {paises.map((p) => (
+                  <th key={p.codigo} className="px-3 py-2 font-semibold text-foreground">
+                    {p.nombre}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {metricas.map((metrica) => {
-                const valorPrimerPais = metrica.obtenerValor(primerPais);
-                const valorSegundoPais = metrica.obtenerValor(segundoPais);
-
-                return (
-                  <tr key={metrica.etiqueta} className="border-t border-border/70">
-                    <th className="px-4 py-2.5 font-medium text-muted-foreground">
-                      {metrica.etiqueta}
-                    </th>
-                    <td
-                      className={`px-4 py-2.5 font-semibold ${
-                        valorPrimerPais > valorSegundoPais ? "text-primary" : "text-foreground"
-                      }`}
-                    >
-                      {metrica.formatear(valorPrimerPais)}
+              {metricas.map((metrica) => (
+                <tr key={metrica.etiqueta} className="border-t border-border/60">
+                  <th className="px-3 py-2 font-medium text-muted-foreground">
+                    {metrica.etiqueta}
+                  </th>
+                  {paises.map((p) => (
+                    <td key={p.codigo} className="px-3 py-2 font-semibold text-foreground">
+                      {metrica.formatear(metrica.obtenerValor(p))}
                     </td>
-                    <td
-                      className={`px-4 py-2.5 font-semibold ${
-                        valorSegundoPais > valorPrimerPais ? "text-primary" : "text-foreground"
-                      }`}
-                    >
-                      {metrica.formatear(valorSegundoPais)}
-                    </td>
-                  </tr>
-                );
-              })}
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

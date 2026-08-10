@@ -7,8 +7,11 @@ import { PanelExplorador } from "@/components/layout/panel-explorador";
 import { MapaMundial } from "@/components/mapa/mapa-mundial";
 import { ComparadorPaises } from "@/components/paises/comparador-paises";
 import { ModalInformePais } from "@/components/paises/modal-informe-pais";
+import { ModalComparadorAvanzado } from "@/components/paises/modal-comparador-avanzado";
+import { ModalEstadisticasGlobales } from "@/components/layout/modal-estadisticas-globales";
 import { MatrizPoderAdquisitivo } from "@/components/graficos/matriz-poder-adquisitivo";
 import { TablaPaises } from "@/components/paises/tabla-paises";
+import { NotificacionToast, type Notificacion } from "@/components/ui/notificacion-toast";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
@@ -16,8 +19,18 @@ export default function Home() {
   const [modoVista, setModoVista] = useState<ModoVista>("mapa");
   const [paisSeleccionado, setPaisSeleccionado] = useState<Pais | null>(null);
   const [paisInformeModal, setPaisInformeModal] = useState<Pais | null>(null);
+  const [modalComparadorAbierto, setModalComparadorAbierto] = useState(false);
+  const [modalEstadisticasAbierto, setModalEstadisticasAbierto] = useState(false);
   const [indicadorActivo, setIndicadorActivo] = useState<IndicadorMapa>("puntuacionTecnologica");
   const [paisesComparados, setPaisesComparados] = useState<Pais[]>([]);
+  const [notificacion, setNotificacion] = useState<Notificacion | null>(null);
+
+  function mostrarNotificacion(mensaje: string, tipo: "exito" | "info" | "alerta" = "exito") {
+    setNotificacion({ id: Date.now().toString(), mensaje, tipo });
+    setTimeout(() => {
+      setNotificacion(null);
+    }, 3000);
+  }
 
   function alternarPaisComparado(pais: Pais) {
     setPaisesComparados((paisesActuales) => {
@@ -26,10 +39,17 @@ export default function Home() {
       );
 
       if (paisYaComparado) {
+        mostrarNotificacion(`Quitado ${pais.nombre} de la comparación`, "info");
         return paisesActuales.filter((paisActual) => paisActual.codigo !== pais.codigo);
       }
 
-      return paisesActuales.length < 2 ? [...paisesActuales, pais] : paisesActuales;
+      if (paisesActuales.length >= 3) {
+        mostrarNotificacion("Máximo de 3 países en comparación", "alerta");
+        return paisesActuales;
+      }
+
+      mostrarNotificacion(`Añadido ${pais.nombre} a la comparación`, "exito");
+      return [...paisesActuales, pais];
     });
   }
 
@@ -50,6 +70,7 @@ export default function Home() {
         }}
         modoVistaActivo={modoVista}
         alCambiarModoVista={setModoVista}
+        alAbrirEstadisticasGlobales={() => setModalEstadisticasAbierto(true)}
       />
 
       {/* Contenido principal según modo de vista */}
@@ -71,7 +92,11 @@ export default function Home() {
               indicadorActivo={indicadorActivo}
               alAbrirInformePais={abrirInformePais}
             />
-            <ComparadorPaises paises={paisesComparados} alCerrar={() => setPaisesComparados([])} />
+            <ComparadorPaises
+              paises={paisesComparados}
+              alCerrar={() => setPaisesComparados([])}
+              alAbrirComparadorAvanzado={() => setModalComparadorAbierto(true)}
+            />
           </section>
         </main>
       )}
@@ -110,9 +135,32 @@ export default function Home() {
             ? paisesComparados.some((p) => p.codigo === paisInformeModal.codigo)
             : false
         }
-        limiteComparadorAlcanzado={paisesComparados.length === 2}
+        limiteComparadorAlcanzado={paisesComparados.length === 3}
         alAlternarComparacion={alternarPaisComparado}
       />
+
+      {/* Modal Comparador Avanzado (2 o 3 Países) */}
+      {modalComparadorAbierto && (
+        <ModalComparadorAvanzado
+          paises={paisesComparados}
+          alCerrar={() => setModalComparadorAbierto(false)}
+          alAlternarComparacion={alternarPaisComparado}
+          alMostrarNotificacion={mostrarNotificacion}
+        />
+      )}
+
+      {/* Modal de Estadísticas Globales */}
+      <ModalEstadisticasGlobales
+        abierto={modalEstadisticasAbierto}
+        alCerrar={() => setModalEstadisticasAbierto(false)}
+        alSeleccionarPais={(p) => {
+          setPaisSeleccionado(p);
+          setModoVista("mapa");
+        }}
+      />
+
+      {/* Toast Feedback Notification */}
+      <NotificacionToast notificacion={notificacion} />
     </div>
   );
 }

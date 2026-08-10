@@ -99,6 +99,7 @@ type PropiedadesMapaMundial = {
   alSeleccionarPais: (pais: Pais | null) => void;
   indicadorActivo: IndicadorMapa;
   alAbrirInformePais?: (pais: Pais) => void;
+  paisesFiltrados?: Pais[];
 };
 
 function crearMarcador(pais: Pais, alSeleccionar: (pais: Pais) => void) {
@@ -119,6 +120,7 @@ export function MapaMundial({
   alSeleccionarPais,
   indicadorActivo,
   alAbrirInformePais,
+  paisesFiltrados = paises,
 }: PropiedadesMapaMundial) {
   const contenedorMapa = useRef<HTMLDivElement>(null);
   const mapaActual = useRef<MapaMapLibre | null>(null);
@@ -127,6 +129,21 @@ export function MapaMundial({
   useEffect(() => {
     indicadorRef.current = indicadorActivo;
   }, [indicadorActivo]);
+
+  // Actualizar visibilidad de marcadores según filtro
+  useEffect(() => {
+    const codigosVisibles = new Set(paisesFiltrados.map((p) => p.codigo));
+    paises.forEach((p) => {
+      const marcador = marcadores.current[p.codigo];
+      if (marcador) {
+        if (codigosVisibles.has(p.codigo)) {
+          marcador.style.display = "flex";
+        } else {
+          marcador.style.display = "none";
+        }
+      }
+    });
+  }, [paisesFiltrados]);
 
   const mapaIso2 = useRef(crearMapaIso2());
 
@@ -334,7 +351,8 @@ export function MapaMundial({
       {/* Contador de países */}
       <div className="pointer-events-none absolute bottom-5 left-5 z-10 rounded-lg border border-border bg-background/80 px-3 py-1.5 backdrop-blur-md">
         <p className="text-xs text-muted-foreground">
-          <span className="font-semibold text-primary">{paises.length}</span> países analizados
+          <span className="font-semibold text-primary">{paisesFiltrados.length}</span> /{" "}
+          {paises.length} países
         </p>
       </div>
 

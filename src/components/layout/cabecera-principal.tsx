@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, Map, BarChart2, Table, Sparkles } from "lucide-react";
+import { Globe, Map, BarChart2, Table, Sparkles, SlidersHorizontal } from "lucide-react";
 
 import { BuscadorPaises } from "@/components/paises/buscador-paises";
 import type { Pais } from "@/types/pais";
@@ -13,6 +13,8 @@ type PropiedadesCabeceraPrincipal = {
   modoVistaActivo: ModoVista;
   alCambiarModoVista: (modo: ModoVista) => void;
   alAbrirEstadisticasGlobales?: () => void;
+  alAbrirFiltros?: () => void;
+  hayFiltrosActivos?: boolean;
 };
 
 export function CabeceraPrincipal({
@@ -20,6 +22,8 @@ export function CabeceraPrincipal({
   modoVistaActivo,
   alCambiarModoVista,
   alAbrirEstadisticasGlobales,
+  alAbrirFiltros,
+  hayFiltrosActivos,
 }: PropiedadesCabeceraPrincipal) {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl">
@@ -81,6 +85,22 @@ export function CabeceraPrincipal({
 
         {/* Acciones & Buscador */}
         <div className="flex items-center gap-2.5">
+          {alAbrirFiltros && (
+            <button
+              type="button"
+              onClick={alAbrirFiltros}
+              className={`relative flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all shadow-sm ${
+                hayFiltrosActivos
+                  ? "border-primary bg-primary/20 text-primary"
+                  : "border-border bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground"
+              }`}
+            >
+              <SlidersHorizontal className="size-3.5" />
+              <span className="hidden sm:inline">Filtros</span>
+              {hayFiltrosActivos && <span className="size-1.5 rounded-full bg-primary" />}
+            </button>
+          )}
+
           {alAbrirEstadisticasGlobales && (
             <button
               type="button"

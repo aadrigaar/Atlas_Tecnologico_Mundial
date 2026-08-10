@@ -9,9 +9,16 @@ import { ComparadorPaises } from "@/components/paises/comparador-paises";
 import { ModalInformePais } from "@/components/paises/modal-informe-pais";
 import { ModalComparadorAvanzado } from "@/components/paises/modal-comparador-avanzado";
 import { ModalEstadisticasGlobales } from "@/components/layout/modal-estadisticas-globales";
+import {
+  PanelFiltrosAvanzados,
+  FILTROS_INICIALES,
+  type FiltrosEstado,
+} from "@/components/paises/panel-filtros-avanzados";
+import { NavegacionInferiorMovil } from "@/components/layout/navegacion-inferior-movil";
 import { MatrizPoderAdquisitivo } from "@/components/graficos/matriz-poder-adquisitivo";
 import { TablaPaises } from "@/components/paises/tabla-paises";
 import { NotificacionToast, type Notificacion } from "@/components/ui/notificacion-toast";
+import { paises } from "@/data/paises";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
@@ -21,9 +28,28 @@ export default function Home() {
   const [paisInformeModal, setPaisInformeModal] = useState<Pais | null>(null);
   const [modalComparadorAbierto, setModalComparadorAbierto] = useState(false);
   const [modalEstadisticasAbierto, setModalEstadisticasAbierto] = useState(false);
+  const [modalFiltrosAbierto, setModalFiltrosAbierto] = useState(false);
   const [indicadorActivo, setIndicadorActivo] = useState<IndicadorMapa>("puntuacionTecnologica");
   const [paisesComparados, setPaisesComparados] = useState<Pais[]>([]);
+  const [filtros, setFiltros] = useState<FiltrosEstado>(FILTROS_INICIALES);
   const [notificacion, setNotificacion] = useState<Notificacion | null>(null);
+
+  // Filtrado de países reactivo
+  const paisesFiltrados = paises.filter((p) => {
+    if (filtros.continente !== "Todos" && p.continente !== filtros.continente) return false;
+    if (p.indicadores.salarioMedioUsd < filtros.salarioMinimoUsd) return false;
+    if (p.indicadores.velocidadInternetMbps < filtros.velocidadInternetMinMbps) return false;
+    if (p.indicadores.puntuacionTecnologica < filtros.puntuacionMinima) return false;
+    if (filtros.soloVisaNomada && !p.ecosistema.visaNomadaDigital) return false;
+    return true;
+  });
+
+  const hayFiltrosActivos =
+    filtros.continente !== "Todos" ||
+    filtros.salarioMinimoUsd > 0 ||
+    filtros.velocidadInternetMinMbps > 0 ||
+    filtros.soloVisaNomada ||
+    filtros.puntuacionMinima > 0;
 
   function mostrarNotificacion(mensaje: string, tipo: "exito" | "info" | "alerta" = "exito") {
     setNotificacion({ id: Date.now().toString(), mensaje, tipo });
@@ -62,7 +88,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-dvh bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground pb-16 md:pb-0">
       <CabeceraPrincipal
         alSeleccionarPais={(p) => {
           setPaisSeleccionado(p);
@@ -71,6 +97,8 @@ export default function Home() {
         modoVistaActivo={modoVista}
         alCambiarModoVista={setModoVista}
         alAbrirEstadisticasGlobales={() => setModalEstadisticasAbierto(true)}
+        alAbrirFiltros={() => setModalFiltrosAbierto(true)}
+        hayFiltrosActivos={hayFiltrosActivos}
       />
 
       {/* Contenido principal según modo de vista */}
@@ -91,6 +119,7 @@ export default function Home() {
               alSeleccionarPais={seleccionarPaisGeneral}
               indicadorActivo={indicadorActivo}
               alAbrirInformePais={abrirInformePais}
+              paisesFiltrados={paisesFiltrados}
             />
             <ComparadorPaises
               paises={paisesComparados}
@@ -157,6 +186,26 @@ export default function Home() {
           setPaisSeleccionado(p);
           setModoVista("mapa");
         }}
+      />
+
+      {/* Panel de Filtros Avanzados */}
+      <PanelFiltrosAvanzados
+        abierto={modalFiltrosAbierto}
+        alCerrar={() => setModalFiltrosAbierto(false)}
+        filtros={filtros}
+        alCambiarFiltros={setFiltros}
+        alRestablecerFiltros={() => setFiltros(FILTROS_INICIALES)}
+        totalResultados={paisesFiltrados.length}
+        totalPaises={paises.length}
+      />
+
+      {/* Navegación Inferior Flotante Móvil */}
+      <NavegacionInferiorMovil
+        modoVistaActivo={modoVista}
+        alCambiarModoVista={setModoVista}
+        alAbrirInsights={() => setModalEstadisticasAbierto(true)}
+        alAbrirFiltros={() => setModalFiltrosAbierto(true)}
+        filtrosActivos={hayFiltrosActivos}
       />
 
       {/* Toast Feedback Notification */}

@@ -18,6 +18,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 82,
       puntuacionTecnologica: 96,
     },
+    ecosistema: {
+      hubsPrincipales: ["Silicon Valley", "Nueva York", "Austin", "Seattle"],
+      empresasDestacadas: ["Apple", "Google", "Microsoft", "OpenAI"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 28,
+      salariosPorNivel: { junior: 85000, mid: 130000, senior: 175000, lead: 220000 },
+    },
   },
   {
     codigo: "CAN",
@@ -35,6 +42,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 78,
       puntuacionTecnologica: 88,
     },
+    ecosistema: {
+      hubsPrincipales: ["Toronto", "Vancouver", "Montreal"],
+      empresasDestacadas: ["Shopify", "1Password", "Cohere"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 30,
+      salariosPorNivel: { junior: 62000, mid: 95000, senior: 135000, lead: 165000 },
+    },
   },
   {
     codigo: "MEX",
@@ -51,6 +65,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 95,
       trabajoRemoto: 55,
       puntuacionTecnologica: 58,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Ciudad de México", "Guadalajara", "Monterrey"],
+      empresasDestacadas: ["Kavak", "Bitso", "Clara"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 20,
+      salariosPorNivel: { junior: 18000, mid: 32000, senior: 48000, lead: 65000 },
     },
   },
 
@@ -71,6 +92,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 60,
       puntuacionTecnologica: 62,
     },
+    ecosistema: {
+      hubsPrincipales: ["São Paulo", "Florianópolis", "Río de Janeiro"],
+      empresasDestacadas: ["Nubank", "iFood", "VTEX"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 22,
+      salariosPorNivel: { junior: 16000, mid: 28000, senior: 45000, lead: 60000 },
+    },
   },
   {
     codigo: "ARG",
@@ -87,6 +115,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 85,
       trabajoRemoto: 62,
       puntuacionTecnologica: 52,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Buenos Aires", "Córdoba", "Mendoza"],
+      empresasDestacadas: ["Mercado Libre", "Globant", "Auth0"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 18,
+      salariosPorNivel: { junior: 12000, mid: 20000, senior: 34000, lead: 48000 },
     },
   },
   {
@@ -105,6 +140,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 58,
       puntuacionTecnologica: 56,
     },
+    ecosistema: {
+      hubsPrincipales: ["Santiago", "Valparaíso"],
+      empresasDestacadas: ["NotCo", "Cornershop", "Betterfly"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 23,
+      salariosPorNivel: { junior: 16000, mid: 28000, senior: 42000, lead: 56000 },
+    },
   },
   {
     codigo: "COL",
@@ -121,6 +163,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 75,
       trabajoRemoto: 56,
       puntuacionTecnologica: 48,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Bogotá", "Medellín", "Cali"],
+      empresasDestacadas: ["Rappi", "Habi", "Platzi"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 19,
+      salariosPorNivel: { junior: 10000, mid: 18000, senior: 30000, lead: 42000 },
     },
   },
 
@@ -141,6 +190,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 68,
       puntuacionTecnologica: 74,
     },
+    ecosistema: {
+      hubsPrincipales: ["Madrid", "Barcelona", "Valencia", "Málaga"],
+      empresasDestacadas: ["Cabify", "Glovo", "Factorial", "Jobandtalent"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 24,
+      salariosPorNivel: { junior: 28000, mid: 48000, senior: 68000, lead: 85000 },
+    },
   },
   {
     codigo: "DEU",
@@ -157,6 +213,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 181,
       trabajoRemoto: 70,
       puntuacionTecnologica: 86,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Berlín", "Múnich", "Hamburgo", "Fráncfort"],
+      empresasDestacadas: ["SAP", "N26", "Delivery Hero", "Personio"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 35,
+      salariosPorNivel: { junior: 48000, mid: 72000, senior: 95000, lead: 120000 },
     },
   },
   {
@@ -175,6 +238,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 76,
       puntuacionTecnologica: 90,
     },
+    ecosistema: {
+      hubsPrincipales: ["Londres", "Cambridge", "Mánchester", "Edimburgo"],
+      empresasDestacadas: ["Revolut", "Monzo", "DeepMind", "Wise"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 32,
+      salariosPorNivel: { junior: 52000, mid: 82000, senior: 115000, lead: 145000 },
+    },
   },
   {
     codigo: "FRA",
@@ -191,6 +261,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 190,
       trabajoRemoto: 64,
       puntuacionTecnologica: 82,
+    },
+    ecosistema: {
+      hubsPrincipales: ["París", "Lyon", "Toulouse"],
+      empresasDestacadas: ["Mistral AI", "BlaBlaCar", "Dataiku", "Qonto"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 30,
+      salariosPorNivel: { junior: 40000, mid: 62000, senior: 82000, lead: 105000 },
     },
   },
   {
@@ -209,6 +286,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 80,
       puntuacionTecnologica: 87,
     },
+    ecosistema: {
+      hubsPrincipales: ["Ámsterdam", "Eindhoven", "Róterdam"],
+      empresasDestacadas: ["ASML", "Adyen", "Booking.com", "Miro"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 33,
+      salariosPorNivel: { junior: 46000, mid: 70000, senior: 94000, lead: 118000 },
+    },
   },
   {
     codigo: "SWE",
@@ -225,6 +309,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 230,
       trabajoRemoto: 82,
       puntuacionTecnologica: 91,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Estocolmo", "Gotemburgo", "Malmö"],
+      empresasDestacadas: ["Spotify", "Klarna", "Mojang", "Epidemic Sound"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 34,
+      salariosPorNivel: { junior: 42000, mid: 65000, senior: 88000, lead: 110000 },
     },
   },
   {
@@ -243,6 +334,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 72,
       puntuacionTecnologica: 92,
     },
+    ecosistema: {
+      hubsPrincipales: ["Zúrich", "Ginebra", "Lausana"],
+      empresasDestacadas: ["Proton", "Logitech", "Abacus"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 22,
+      salariosPorNivel: { junior: 82000, mid: 120000, senior: 155000, lead: 190000 },
+    },
   },
   {
     codigo: "EST",
@@ -259,6 +357,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 205,
       trabajoRemoto: 78,
       puntuacionTecnologica: 84,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Tallin", "Tartu"],
+      empresasDestacadas: ["Bolt", "Wise", "Pipedrive", "Veriff"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 20,
+      salariosPorNivel: { junior: 35000, mid: 58000, senior: 78000, lead: 98000 },
     },
   },
   {
@@ -277,6 +382,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 74,
       puntuacionTecnologica: 85,
     },
+    ecosistema: {
+      hubsPrincipales: ["Dublín", "Cork", "Galway"],
+      empresasDestacadas: ["Stripe", "Intercom", "Framer"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 31,
+      salariosPorNivel: { junior: 50000, mid: 78000, senior: 105000, lead: 135000 },
+    },
   },
   {
     codigo: "POL",
@@ -294,6 +406,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 66,
       puntuacionTecnologica: 72,
     },
+    ecosistema: {
+      hubsPrincipales: ["Varsovia", "Cracovia", "Breslavia"],
+      empresasDestacadas: ["CD Projekt", "Docplanner", "Allegro"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 19,
+      salariosPorNivel: { junior: 24000, mid: 40000, senior: 58000, lead: 74000 },
+    },
   },
   {
     codigo: "PRT",
@@ -310,6 +429,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 185,
       trabajoRemoto: 70,
       puntuacionTecnologica: 68,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Lisboa", "Oporto", "Braga"],
+      empresasDestacadas: ["OutSystems", "Farfetch", "Feedzai"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 22,
+      salariosPorNivel: { junior: 20000, mid: 34000, senior: 50000, lead: 65000 },
     },
   },
 
@@ -330,6 +456,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 65,
       puntuacionTecnologica: 78,
     },
+    ecosistema: {
+      hubsPrincipales: ["Bangalore", "Hyderabad", "Pune", "Gurgaon"],
+      empresasDestacadas: ["Flipkart", "Razorpay", "Zomato", "Postman"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 20,
+      salariosPorNivel: { junior: 14000, mid: 28000, senior: 45000, lead: 62000 },
+    },
   },
   {
     codigo: "SGP",
@@ -346,6 +479,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 300,
       trabajoRemoto: 75,
       puntuacionTecnologica: 93,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Singapur"],
+      empresasDestacadas: ["Grab", "Sea Group", "Lazada", "Carousell"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 17,
+      salariosPorNivel: { junior: 55000, mid: 88000, senior: 120000, lead: 150000 },
     },
   },
   {
@@ -364,6 +504,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 42,
       puntuacionTecnologica: 88,
     },
+    ecosistema: {
+      hubsPrincipales: ["Tokio", "Fukuoka", "Osaka"],
+      empresasDestacadas: ["Mercari", "Rakuten", "LINE", "Sony"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 28,
+      salariosPorNivel: { junior: 38000, mid: 58000, senior: 80000, lead: 105000 },
+    },
   },
   {
     codigo: "KOR",
@@ -380,6 +527,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 280,
       trabajoRemoto: 38,
       puntuacionTecnologica: 90,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Seúl", "Pangyo Tech Valley"],
+      empresasDestacadas: ["Naver", "Kakao", "Coupang", "Samsung"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 25,
+      salariosPorNivel: { junior: 34000, mid: 52000, senior: 72000, lead: 92000 },
     },
   },
   {
@@ -398,6 +552,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 30,
       puntuacionTecnologica: 85,
     },
+    ecosistema: {
+      hubsPrincipales: ["Pekín", "Shenzhen", "Hangzhou", "Shanghái"],
+      empresasDestacadas: ["Tencent", "Alibaba", "ByteDance", "Baidu"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 25,
+      salariosPorNivel: { junior: 22000, mid: 38000, senior: 56000, lead: 78000 },
+    },
   },
   {
     codigo: "ISR",
@@ -415,6 +576,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 72,
       puntuacionTecnologica: 94,
     },
+    ecosistema: {
+      hubsPrincipales: ["Tel Aviv", "Haifa", "Herzliya"],
+      empresasDestacadas: ["Wix", "Monday.com", "Check Point", "Mobileye"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 31,
+      salariosPorNivel: { junior: 68000, mid: 102000, senior: 140000, lead: 175000 },
+    },
   },
   {
     codigo: "ARE",
@@ -431,6 +599,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 250,
       trabajoRemoto: 55,
       puntuacionTecnologica: 78,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Dúbai", "Abu Dabi"],
+      empresasDestacadas: ["Careem", "Souq", "Kitopi", "Swvl"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 0,
+      salariosPorNivel: { junior: 48000, mid: 78000, senior: 110000, lead: 140000 },
     },
   },
 
@@ -451,6 +626,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 76,
       puntuacionTecnologica: 84,
     },
+    ecosistema: {
+      hubsPrincipales: ["Sídney", "Melbourne", "Brisbane"],
+      empresasDestacadas: ["Atlassian", "Canva", "Afterpay", "SafetyCulture"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 30,
+      salariosPorNivel: { junior: 56000, mid: 88000, senior: 122000, lead: 152000 },
+    },
   },
   {
     codigo: "NZL",
@@ -467,6 +649,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 160,
       trabajoRemoto: 78,
       puntuacionTecnologica: 76,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Auckland", "Wellington"],
+      empresasDestacadas: ["Xero", "Pushpay", "Rocket Lab"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 28,
+      salariosPorNivel: { junior: 42000, mid: 66000, senior: 90000, lead: 112000 },
     },
   },
 
@@ -487,6 +676,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 45,
       puntuacionTecnologica: 38,
     },
+    ecosistema: {
+      hubsPrincipales: ["Lagos", "Abuya"],
+      empresasDestacadas: ["Flutterwave", "Paystack", "Andela"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 15,
+      salariosPorNivel: { junior: 8000, mid: 14000, senior: 22000, lead: 32000 },
+    },
   },
   {
     codigo: "KEN",
@@ -503,6 +699,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 45,
       trabajoRemoto: 48,
       puntuacionTecnologica: 42,
+    },
+    ecosistema: {
+      hubsPrincipales: ["Nairobi (Silicon Savannah)"],
+      empresasDestacadas: ["M-Pesa", "Cellulant", "Wasoko"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 16,
+      salariosPorNivel: { junior: 9000, mid: 16000, senior: 26000, lead: 36000 },
     },
   },
   {
@@ -521,6 +724,13 @@ export const paises: Pais[] = [
       trabajoRemoto: 50,
       puntuacionTecnologica: 48,
     },
+    ecosistema: {
+      hubsPrincipales: ["Ciudad del Cabo", "Johannesburgo"],
+      empresasDestacadas: ["Naspers", "Yoco", "Takealot"],
+      visaNomadaDigital: true,
+      impuestosAproximadosPorcentaje: 25,
+      salariosPorNivel: { junior: 14000, mid: 25000, senior: 40000, lead: 54000 },
+    },
   },
   {
     codigo: "EGY",
@@ -537,6 +747,13 @@ export const paises: Pais[] = [
       velocidadInternetMbps: 50,
       trabajoRemoto: 35,
       puntuacionTecnologica: 40,
+    },
+    ecosistema: {
+      hubsPrincipales: ["El Cairo", "Alejandría"],
+      empresasDestacadas: ["Swvl", "Instabug", "Vezeeta"],
+      visaNomadaDigital: false,
+      impuestosAproximadosPorcentaje: 18,
+      salariosPorNivel: { junior: 7000, mid: 13000, senior: 21000, lead: 30000 },
     },
   },
 ];

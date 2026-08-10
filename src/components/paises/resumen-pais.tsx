@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FileText } from "lucide-react";
 import { RadarPerfilTecnologico } from "@/components/graficos/radar-perfil-tecnologico";
 import { Button } from "@/components/ui/button";
 import type { Pais } from "@/types/pais";
@@ -22,6 +23,7 @@ type PropiedadesResumenPais = {
   estaComparado: boolean;
   limiteComparadorAlcanzado: boolean;
   alAlternarComparacion: (pais: Pais) => void;
+  alAbrirInforme?: (pais: Pais) => void;
 };
 
 export function ResumenPais({
@@ -29,6 +31,7 @@ export function ResumenPais({
   estaComparado,
   limiteComparadorAlcanzado,
   alAlternarComparacion,
+  alAbrirInforme,
 }: PropiedadesResumenPais) {
   const metricas = [
     { etiqueta: "Salario medio", valor: formatoSalario.format(pais.indicadores.salarioMedioUsd) },
@@ -52,20 +55,37 @@ export function ResumenPais({
       <p className="mt-1 text-sm text-muted-foreground">
         {pais.capital} · {pais.continente}
       </p>
-      <Button
-        type="button"
-        variant={estaComparado ? "secondary" : "outline"}
-        size="sm"
-        className="mt-4 w-full"
-        disabled={!estaComparado && limiteComparadorAlcanzado}
-        onClick={() => alAlternarComparacion(pais)}
-      >
-        {estaComparado
-          ? "Quitar de la comparación"
-          : limiteComparadorAlcanzado
-            ? "Máximo de 2 países"
-            : "Añadir a la comparación"}
-      </Button>
+
+      <div className="mt-4 flex flex-col gap-2">
+        {alAbrirInforme && (
+          <Button
+            type="button"
+            variant="default"
+            size="sm"
+            className="w-full shadow-md shadow-primary/10"
+            onClick={() => alAbrirInforme(pais)}
+          >
+            <FileText className="mr-1.5 size-4" />
+            Ver informe completo
+          </Button>
+        )}
+
+        <Button
+          type="button"
+          variant={estaComparado ? "secondary" : "outline"}
+          size="sm"
+          className="w-full"
+          disabled={!estaComparado && limiteComparadorAlcanzado}
+          onClick={() => alAlternarComparacion(pais)}
+        >
+          {estaComparado
+            ? "Quitar de la comparación"
+            : limiteComparadorAlcanzado
+              ? "Máximo de 2 países"
+              : "+ Añadir a la comparación"}
+        </Button>
+      </div>
+
       <dl className="mt-4 grid grid-cols-2 gap-2 border-t border-primary/15 pt-3">
         {metricas.map((metrica, indice) => (
           <motion.div

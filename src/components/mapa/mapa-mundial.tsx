@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, FileText } from "lucide-react";
 import {
   Map as MapaMapLibre,
   Marker,
@@ -98,6 +98,7 @@ type PropiedadesMapaMundial = {
   paisSeleccionado: Pais | null;
   alSeleccionarPais: (pais: Pais | null) => void;
   indicadorActivo: IndicadorMapa;
+  alAbrirInformePais?: (pais: Pais) => void;
 };
 
 function crearMarcador(pais: Pais, alSeleccionar: (pais: Pais) => void) {
@@ -117,6 +118,7 @@ export function MapaMundial({
   paisSeleccionado,
   alSeleccionarPais,
   indicadorActivo,
+  alAbrirInformePais,
 }: PropiedadesMapaMundial) {
   const contenedorMapa = useRef<HTMLDivElement>(null);
   const mapaActual = useRef<MapaMapLibre | null>(null);
@@ -400,6 +402,17 @@ export function MapaMundial({
                 </dd>
               </div>
             </dl>
+
+            {alAbrirInformePais && (
+              <button
+                type="button"
+                onClick={() => alAbrirInformePais(paisSeleccionado)}
+                className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+              >
+                <FileText className="size-3.5" />
+                Ver informe completo
+              </button>
+            )}
           </motion.article>
         )}
       </AnimatePresence>

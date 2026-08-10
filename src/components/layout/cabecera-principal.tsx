@@ -1,19 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, MapPin } from "lucide-react";
+import { Globe, Map, BarChart2, Table } from "lucide-react";
 
 import { BuscadorPaises } from "@/components/paises/buscador-paises";
 import type { Pais } from "@/types/pais";
 
+export type ModoVista = "mapa" | "matriz" | "tabla";
+
 type PropiedadesCabeceraPrincipal = {
   alSeleccionarPais: (pais: Pais) => void;
+  modoVistaActivo: ModoVista;
+  alCambiarModoVista: (modo: ModoVista) => void;
 };
 
-export function CabeceraPrincipal({ alSeleccionarPais }: PropiedadesCabeceraPrincipal) {
+export function CabeceraPrincipal({
+  alSeleccionarPais,
+  modoVistaActivo,
+  alCambiarModoVista,
+}: PropiedadesCabeceraPrincipal) {
   return (
-    <header className="border-b border-border bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 sm:px-6">
+        {/* Brand */}
         <Link href="/" className="flex items-center gap-3" aria-label="Ir al inicio">
           <span className="flex size-9 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
             <Globe className="size-4" aria-hidden="true" />
@@ -26,12 +35,51 @@ export function CabeceraPrincipal({ alSeleccionarPais }: PropiedadesCabeceraPrin
           </span>
         </Link>
 
+        {/* View mode switcher */}
+        <nav className="hidden items-center gap-1 rounded-2xl border border-border bg-card/60 p-1 sm:flex">
+          <button
+            type="button"
+            onClick={() => alCambiarModoVista("mapa")}
+            className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
+              modoVistaActivo === "mapa"
+                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            }`}
+          >
+            <Map className="size-3.5" />
+            <span>Mapa</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => alCambiarModoVista("matriz")}
+            className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
+              modoVistaActivo === "matriz"
+                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            }`}
+          >
+            <BarChart2 className="size-3.5" />
+            <span>Matriz de Valor</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => alCambiarModoVista("tabla")}
+            className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
+              modoVistaActivo === "tabla"
+                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            }`}
+          >
+            <Table className="size-3.5" />
+            <span>Tabla</span>
+          </button>
+        </nav>
+
+        {/* Buscador */}
         <div className="flex items-center gap-3">
           <BuscadorPaises alSeleccionarPais={alSeleccionarPais} />
-          <div className="flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-1.5 text-xs font-medium text-muted-foreground">
-            <MapPin className="size-3.5 text-primary" aria-hidden="true" />
-            <span className="hidden sm:inline">Explorador global</span>
-          </div>
         </div>
       </div>
     </header>

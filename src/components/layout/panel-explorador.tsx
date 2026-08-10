@@ -54,6 +54,7 @@ type PropiedadesPanelExplorador = {
   paisesComparados: Pais[];
   alAlternarPaisComparado: (pais: Pais) => void;
   alSeleccionarPais: (pais: Pais) => void;
+  alAbrirInformePais?: (pais: Pais) => void;
 };
 
 export function PanelExplorador({
@@ -63,6 +64,7 @@ export function PanelExplorador({
   paisesComparados,
   alAlternarPaisComparado,
   alSeleccionarPais,
+  alAbrirInformePais,
 }: PropiedadesPanelExplorador) {
   return (
     <aside className="flex w-full flex-col gap-4 overflow-y-auto border-b border-border bg-card/30 p-4 md:min-h-[calc(100dvh-4rem)] md:w-80 md:border-r md:border-b-0 md:p-5">
@@ -145,6 +147,7 @@ export function PanelExplorador({
               )}
               limiteComparadorAlcanzado={paisesComparados.length === 2}
               alAlternarComparacion={alAlternarPaisComparado}
+              alAbrirInforme={alAbrirInformePais}
             />
           </motion.div>
         ) : (

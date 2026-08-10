@@ -24,13 +24,18 @@ export function RadarPerfilTecnologico({ pais }: PropiedadesRadarPerfilTecnologi
       valor: Math.min(100, Math.round(pais.indicadores.velocidadInternetMbps / 3)),
     },
     { indicador: "Coste", valor: 100 - pais.indicadores.costeDeVida },
+    {
+      indicador: "Salario",
+      valor: Math.min(100, Math.round((pais.indicadores.salarioMedioUsd / 150000) * 100)),
+    },
+    {
+      indicador: "IA",
+      valor: Math.min(100, Math.round((pais.indicadores.empresasIa / 13000) * 100)),
+    },
   ];
 
   return (
-    <section
-      className="mt-4 border-t border-primary/15 pt-4"
-      aria-label="Perfil tecnológico relativo"
-    >
+    <section className="mt-4 border-t border-primary/15 pt-4" aria-label="Perfil tecnológico">
       <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
         Perfil relativo
       </p>
@@ -40,7 +45,7 @@ export function RadarPerfilTecnologico({ pais }: PropiedadesRadarPerfilTecnologi
             <PolarGrid stroke="#ffffff1a" />
             <PolarAngleAxis
               dataKey="indicador"
-              tick={{ fill: "#93a4ba", fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: "#93a4ba", fontSize: 10, fontWeight: 500 }}
             />
             <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
             <Radar
@@ -54,7 +59,7 @@ export function RadarPerfilTecnologico({ pais }: PropiedadesRadarPerfilTecnologi
         </ResponsiveContainer>
       </div>
       <p className="text-xs leading-4 text-muted-foreground">
-        Normalizo la conectividad y el coste de vida en una escala de 0 a 100 para compararlos.
+        Todos los valores se normalizan a una escala de 0 a 100 para facilitar la comparación.
       </p>
     </section>
   );

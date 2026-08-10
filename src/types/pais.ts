@@ -1,4 +1,4 @@
-export type Continente = "Asia" | "Europa" | "Norteamérica";
+export type Continente = "Europa" | "Norteamérica" | "Sudamérica" | "Asia" | "África" | "Oceanía";
 
 export type IndicadoresTecnologicos = {
   salarioMedioUsd: number;
@@ -12,6 +12,7 @@ export type IndicadoresTecnologicos = {
 
 export type Pais = {
   codigo: string;
+  codigoIso2: string;
   nombre: string;
   capital: string;
   continente: Continente;

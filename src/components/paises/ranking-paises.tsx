@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { paises } from "@/data/paises";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
@@ -19,7 +20,7 @@ const formatoNumero = new Intl.NumberFormat("es-ES", {
 const etiquetasIndicadores: Record<IndicadorMapa, string> = {
   salarioMedioUsd: "Salarios",
   empresasTecnologicas: "Empresas tecnológicas",
-  empresasIa: "Empresas de inteligencia artificial",
+  empresasIa: "Empresas de IA",
   velocidadInternetMbps: "Velocidad de internet",
   trabajoRemoto: "Trabajo remoto",
   puntuacionTecnologica: "Puntuación tecnológica",
@@ -31,30 +32,19 @@ type PropiedadesRankingPaises = {
 };
 
 function formatearValor(indicador: IndicadorMapa, valor: number) {
-  if (indicador === "salarioMedioUsd") {
-    return formatoSalario.format(valor);
-  }
-
-  if (indicador === "velocidadInternetMbps") {
-    return `${valor} Mbps`;
-  }
-
-  if (indicador === "trabajoRemoto" || indicador === "puntuacionTecnologica") {
-    return `${valor}/100`;
-  }
-
+  if (indicador === "salarioMedioUsd") return formatoSalario.format(valor);
+  if (indicador === "velocidadInternetMbps") return `${valor} Mbps`;
+  if (indicador === "trabajoRemoto" || indicador === "puntuacionTecnologica") return `${valor}/100`;
   return formatoNumero.format(valor);
 }
 
 export function RankingPaises({ indicador, alSeleccionarPais }: PropiedadesRankingPaises) {
   const ranking = [...paises]
-    .sort((primerPais, segundoPais) => {
-      return segundoPais.indicadores[indicador] - primerPais.indicadores[indicador];
-    })
-    .slice(0, 3);
+    .sort((a, b) => b.indicadores[indicador] - a.indicadores[indicador])
+    .slice(0, 5);
 
   return (
-    <section className="mt-4 rounded-2xl border border-border bg-card/70 p-4">
+    <section className="rounded-2xl border border-border bg-card/70 p-4">
       <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
         Ranking actual
       </p>
@@ -63,13 +53,26 @@ export function RankingPaises({ indicador, alSeleccionarPais }: PropiedadesRanki
       </h2>
       <ol className="mt-3 space-y-1">
         {ranking.map((pais, indice) => (
-          <li key={pais.codigo}>
+          <motion.li
+            key={pais.codigo}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: indice * 0.05, duration: 0.2 }}
+          >
             <button
               type="button"
               className="flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors hover:bg-secondary"
               onClick={() => alSeleccionarPais(pais)}
             >
-              <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-primary">
+              <span
+                className={`flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                  indice === 0
+                    ? "bg-primary/15 text-primary"
+                    : indice === 1
+                      ? "bg-chart-3/15 text-chart-3"
+                      : "bg-secondary text-muted-foreground"
+                }`}
+              >
                 {indice + 1}
               </span>
               <span className="min-w-0 flex-1">
@@ -82,7 +85,7 @@ export function RankingPaises({ indicador, alSeleccionarPais }: PropiedadesRanki
                 {formatearValor(indicador, pais.indicadores[indicador])}
               </span>
             </button>
-          </li>
+          </motion.li>
         ))}
       </ol>
     </section>

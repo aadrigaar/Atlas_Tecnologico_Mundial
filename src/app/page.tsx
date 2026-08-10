@@ -46,7 +46,7 @@ export default function Home() {
             alSeleccionarPais={setPaisSeleccionado}
             indicadorActivo={indicadorActivo}
           />
-          <ComparadorPaises paises={paisesComparados} />
+          <ComparadorPaises paises={paisesComparados} alCerrar={() => setPaisesComparados([])} />
         </section>
       </main>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import { BarChart3, Building2, CircleDollarSign, Cpu, GraduationCap, Wifi } from "lucide-react";
 
 import { ResumenPais } from "@/components/paises/resumen-pais";
@@ -64,37 +65,52 @@ export function PanelExplorador({
   alSeleccionarPais,
 }: PropiedadesPanelExplorador) {
   return (
-    <aside className="w-full border-b border-border bg-card/30 p-4 md:min-h-[calc(100dvh-4rem)] md:w-80 md:border-r md:border-b-0 md:p-5">
+    <aside className="flex w-full flex-col gap-4 overflow-y-auto border-b border-border bg-card/30 p-4 md:min-h-[calc(100dvh-4rem)] md:w-80 md:border-r md:border-b-0 md:p-5">
+      {/* Selector de indicadores */}
       <div className="rounded-2xl border border-border bg-card/70 p-4 shadow-2xl shadow-black/10">
         <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">Explorador</p>
         <h2 className="mt-2 text-lg font-semibold tracking-tight">Indicadores globales</h2>
         <p className="mt-1 text-sm leading-5 text-muted-foreground">
-          Analizo los datos que definen cada ecosistema tecnológico.
-        </p>
-        <p className="mt-3 text-xs font-medium text-muted-foreground">
-          Comparador: {paisesComparados.length}/2 países preparados
+          Datos que definen cada ecosistema tecnológico.
         </p>
 
-        <ul className="mt-5 grid gap-2 sm:grid-cols-2 md:grid-cols-1">
+        {paisesComparados.length > 0 && (
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-primary/10 px-2.5 py-1.5">
+            <div className="size-1.5 rounded-full bg-primary" />
+            <p className="text-xs font-medium text-primary">
+              Comparador: {paisesComparados.length}/2 países
+            </p>
+          </div>
+        )}
+
+        <ul className="mt-5 grid gap-1.5 sm:grid-cols-2 md:grid-cols-1">
           {indicadores.map((indicador) => {
             const Icono = indicador.icono;
+            const activo = indicadorActivo === indicador.indicador;
 
             return (
               <li key={indicador.indicador}>
                 <button
                   type="button"
-                  className={`flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors ${
-                    indicadorActivo === indicador.indicador
-                      ? "bg-secondary text-foreground"
-                      : "text-muted-foreground hover:bg-secondary/60"
+                  className={`relative flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-all duration-200 ${
+                    activo
+                      ? "bg-secondary text-foreground shadow-sm"
+                      : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
                   }`}
                   onClick={() => alSeleccionarIndicador(indicador.indicador)}
-                  aria-pressed={indicadorActivo === indicador.indicador}
+                  aria-pressed={activo}
                 >
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-background/60 text-primary">
+                  {activo && (
+                    <motion.div
+                      layoutId="indicador-activo"
+                      className="absolute inset-0 rounded-xl border border-primary/20 bg-primary/5"
+                      transition={{ type: "spring", duration: 0.35, bounce: 0.15 }}
+                    />
+                  )}
+                  <span className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-background/60 text-primary">
                     <Icono className="size-4" aria-hidden="true" />
                   </span>
-                  <span className="min-w-0">
+                  <span className="relative min-w-0">
                     <span className="block text-sm font-medium text-foreground">
                       {indicador.etiqueta}
                     </span>
@@ -109,25 +125,45 @@ export function PanelExplorador({
         </ul>
       </div>
 
+      {/* Ranking */}
       <RankingPaises indicador={indicadorActivo} alSeleccionarPais={alSeleccionarPais} />
 
-      {paisSeleccionado ? (
-        <ResumenPais
-          pais={paisSeleccionado}
-          estaComparado={paisesComparados.some((pais) => pais.codigo === paisSeleccionado.codigo)}
-          limiteComparadorAlcanzado={paisesComparados.length === 2}
-          alAlternarComparacion={alAlternarPaisComparado}
-        />
-      ) : (
-        <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/40 p-4">
-          <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-            Próximo paso
-          </p>
-          <p className="mt-2 text-sm leading-5 text-foreground">
-            Selecciono un país en el mapa para consultar su perfil tecnológico.
-          </p>
-        </div>
-      )}
+      {/* Resumen del país o estado vacío */}
+      <AnimatePresence mode="wait">
+        {paisSeleccionado ? (
+          <motion.div
+            key={paisSeleccionado.codigo}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ResumenPais
+              pais={paisSeleccionado}
+              estaComparado={paisesComparados.some(
+                (pais) => pais.codigo === paisSeleccionado.codigo,
+              )}
+              limiteComparadorAlcanzado={paisesComparados.length === 2}
+              alAlternarComparacion={alAlternarPaisComparado}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="estado-vacio"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="rounded-2xl border border-dashed border-border bg-secondary/40 p-4"
+          >
+            <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+              Próximo paso
+            </p>
+            <p className="mt-2 text-sm leading-5 text-foreground">
+              Selecciona un país en el mapa para consultar su perfil tecnológico.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </aside>
   );
 }

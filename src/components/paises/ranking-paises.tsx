@@ -70,7 +70,9 @@ export function RankingPaises({ indicador, alSeleccionarPais }: PropiedadesRanki
                     ? "bg-primary/15 text-primary"
                     : indice === 1
                       ? "bg-chart-3/15 text-chart-3"
-                      : "bg-secondary text-muted-foreground"
+                      : indice === 2
+                        ? "bg-chart-4/15 text-chart-4"
+                        : "bg-secondary text-muted-foreground"
                 }`}
               >
                 {indice + 1}

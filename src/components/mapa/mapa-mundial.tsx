@@ -10,7 +10,6 @@ import {
   type StyleSpecification,
   type MapLayerMouseEvent,
 } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
 
 import { paises } from "@/data/paises";
 import type { IndicadorMapa } from "@/types/indicador";

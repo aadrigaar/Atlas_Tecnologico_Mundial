@@ -77,6 +77,13 @@ export function ResumenPais({
           className="w-full"
           disabled={!estaComparado && limiteComparadorAlcanzado}
           onClick={() => alAlternarComparacion(pais)}
+          aria-label={
+            estaComparado
+              ? `Quitar ${pais.nombre} de la comparación`
+              : limiteComparadorAlcanzado
+                ? "Máximo de 3 países alcanzado"
+                : `Añadir ${pais.nombre} a la comparación`
+          }
         >
           {estaComparado
             ? "Quitar de la comparación"

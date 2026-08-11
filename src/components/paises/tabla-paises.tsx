@@ -168,6 +168,7 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("nombre")}
+                    aria-label="Ordenar por país"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
                     País <ArrowUpDown className="size-3" />
@@ -177,6 +178,7 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("continente")}
+                    aria-label="Ordenar por continente"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
                     Continente <ArrowUpDown className="size-3" />
@@ -186,6 +188,7 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("salarioMedioUsd")}
+                    aria-label="Ordenar por salario medio"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
                     Salario Medio <ArrowUpDown className="size-3" />
@@ -195,6 +198,7 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("puntuacionTecnologica")}
+                    aria-label="Ordenar por puntuación tecnológica"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
                     Score Tech <ArrowUpDown className="size-3" />
@@ -204,6 +208,7 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("poderAdquisitivo")}
+                    aria-label="Ordenar por poder adquisitivo"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
                     Poder Adquisitivo <ArrowUpDown className="size-3" />
@@ -213,6 +218,7 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("velocidadInternetMbps")}
+                    aria-label="Ordenar por velocidad de internet"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
                     Internet <ArrowUpDown className="size-3" />

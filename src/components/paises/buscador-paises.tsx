@@ -70,6 +70,10 @@ export function BuscadorPaises({ alSeleccionarPais }: PropiedadesBuscadorPaises)
         ref={inputRef}
         id="buscador-paises"
         type="search"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={abierto && !!consultaNormalizada}
+        aria-controls="buscador-resultados"
         value={consulta}
         onChange={(evento) => {
           setConsulta(evento.target.value);
@@ -96,7 +100,7 @@ export function BuscadorPaises({ alSeleccionarPais }: PropiedadesBuscadorPaises)
       {abierto && consultaNormalizada && (
         <div className="absolute top-11 right-0 left-0 z-20 overflow-hidden rounded-xl border border-border bg-card shadow-xl shadow-black/30">
           {resultados.length ? (
-            <ul className="max-h-64 overflow-y-auto p-1">
+            <ul id="buscador-resultados" role="listbox" aria-label="Resultados de búsqueda" className="max-h-64 overflow-y-auto p-1">
               {resultados.map((pais) => (
                 <li key={pais.codigo}>
                   <button

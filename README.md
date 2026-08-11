@@ -12,7 +12,7 @@
 
 ## 🚀 Demo
 
-**Producción (Vercel):** [URL_DE_VERCEL](URL_DE_VERCEL)
+**Producción (Vercel):** [Atlas Tecnológico Mundial](https://atlas-tecnologico-mundial.vercel.app)
 
 Para ejecutar localmente:
 
@@ -29,15 +29,41 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
 ## 📸 Capturas de pantalla
 
-> Las capturas se añadirán en `docs/screenshots/` tras el despliegue.
->
-> Archivos pendientes:
-> - `docs/screenshots/mapa-principal.png` — Mapa coroplético mundial con panel lateral
-> - `docs/screenshots/informe-pais.png` — Modal de informe de país con 4 pestañas
-> - `docs/screenshots/matriz-valor.png` — Scatter plot de poder adquisitivo vs coste de vida
-> - `docs/screenshots/tabla-paises.png` — Tabla interactiva con búsqueda y ordenación
-> - `docs/screenshots/comparador-paises.png` — Comparador avanzado de hasta 3 países
-> - `docs/screenshots/vista-movil.png` — Navegación flotante en móvil
+### 🗺️ Mapa principal
+
+Mapa coroplético mundial con indicadores tecnológicos, ranking, selección de países e información contextual.
+
+![Mapa principal](docs/screenshots/mapa-principal.png)
+
+### 📊 Informe de país
+
+Ficha detallada de cada ecosistema tecnológico con métricas, salarios, empresas, hubs tecnológicos y calidad de vida.
+
+![Informe de país](docs/screenshots/informe-pais.png)
+
+### 📈 Matriz de valor
+
+Comparativa visual entre salario medio y coste de vida para identificar los ecosistemas con mayor poder adquisitivo.
+
+![Matriz de valor](docs/screenshots/matriz-valor.png)
+
+### 📋 Tabla de ecosistemas
+
+Tabla interactiva con búsqueda, ordenación, filtros y acceso directo a las diferentes acciones de cada país.
+
+![Tabla de países](docs/screenshots/tabla-paises.png)
+
+### ⚖️ Comparador de países
+
+Comparación de hasta tres ecosistemas tecnológicos mediante métricas y visualizaciones comparativas.
+
+![Comparador de países](docs/screenshots/comparador-paises.png)
+
+### 📱 Diseño responsive
+
+Interfaz adaptada a dispositivos móviles con navegación inferior y acceso a las principales funcionalidades.
+
+![Vista móvil](docs/screenshots/vista-movil.png)
 
 ---
 
@@ -273,9 +299,9 @@ npm run dev
 
 - 🎓 Graduado en Ingeniería Informática
 - 💼 Buscando primer puesto como Software Engineer / Full Stack Junior
-- 🐙 GitHub: [TU_GITHUB](https://github.com/TU_GITHUB)
-- 🔗 LinkedIn: [TU_LINKEDIN](https://linkedin.com/in/TU_LINKEDIN)
-- 📧 Email: TU_EMAIL
+- 🐙 GitHub: [aadrigaar](https://github.com/aadrigaar)
+- 🔗 LinkedIn: [Adrián García Arranz](https://www.linkedin.com/in/adrian-garcia-arranz/)
+- 📧 Email: adrigar1111@gmail.com
 
 ---
 

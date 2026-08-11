@@ -18,7 +18,7 @@ Para ejecutar localmente:
 
 ```bash
 git clone https://github.com/aadrigaar/Atlas_Tecnologico_Mundial.git
-cd atlas-tecnologico-mundial
+cd Atlas_Tecnologico_Mundial
 npm install
 npm run dev
 ```
@@ -235,7 +235,7 @@ Integración declarativa con React, soporte completo para Scatter, Radar, Bar y 
 ```bash
 # Clonar el repositorio
 git clone https://github.com/aadrigaar/Atlas_Tecnologico_Mundial.git
-cd atlas-tecnologico-mundial
+cd Atlas_Tecnologico_Mundial
 
 # Instalar dependencias
 npm install

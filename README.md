@@ -295,7 +295,7 @@ npm run dev
 
 ## 👤 Autor
 
-**TU_NOMBRE**
+**Adrián García Arranz**
 
 - 🎓 Graduado en Ingeniería Informática
 - 💼 Buscando primer puesto como Software Engineer / Full Stack Junior

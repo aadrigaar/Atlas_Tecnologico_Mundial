@@ -43,7 +43,7 @@ Ficha detallada de cada ecosistema tecnológico con métricas, salarios, empresa
 
 ### 📈 Matriz de valor
 
-Comparativa visual entre salario medio y coste de vida para identificar los ecosistemas con mayor poder adquisitivo.
+Comparativa visual entre referencia salarial y coste de vida para identificar los ecosistemas con mayor poder adquisitivo.
 
 ![Matriz de valor](docs/screenshots/matriz-valor.png)
 
@@ -89,7 +89,7 @@ Modal con **4 pestañas** por país:
 
 ### 📊 Matriz de Poder Adquisitivo
 
-Scatter plot que cruza **Salario Medio** vs **Coste de Vida** y clasifica los países en 4 cuadrantes:
+Scatter plot que cruza **Referencia Salarial** vs **Coste de Vida** y clasifica los países en 4 cuadrantes:
 
 - 🟢 **Paraíso Developer** — Alto salario, bajo coste
 - 🔵 **Mercado Maduro** — Alto salario, alto coste
@@ -184,23 +184,67 @@ src/
 
 **Los datos son estáticos y están definidos en TypeScript** en `src/data/paises.ts`.
 
-El dataset cubre **32 países de 6 continentes** con las siguientes métricas por país:
+El dataset cubre **31 países de 6 continentes** con las siguientes métricas por país:
 
-| Campo                    | Descripción                                           |
-| ------------------------ | ----------------------------------------------------- |
-| `salarioMedioUsd`        | Salario anual estimado en software engineering (USD)  |
-| `empresasTecnologicas`   | Número aproximado de empresas del sector tech         |
-| `empresasIa`             | Número aproximado de empresas de IA                   |
-| `costeDeVida`            | Índice de coste de vida (0–100)                       |
-| `velocidadInternetMbps`  | Velocidad media de conexión a internet                |
-| `trabajoRemoto`          | Índice de adopción de trabajo remoto (0–100)          |
-| `puntuacionTecnologica`  | Puntuación global de madurez tecnológica del país     |
+| Campo                    | Descripción                                                                 |
+| ------------------------ | --------------------------------------------------------------------------- |
+| `salarioMedioUsd`        | **Referencia salarial** anual bruta para perfiles de software engineering (USD) |
+| `empresasTecnologicas`   | Número aproximado de empresas del sector tech                               |
+| `empresasIa`             | Número aproximado de empresas de IA                                         |
+| `costeDeVida`            | Índice de coste de vida (0–100)                                             |
+| `velocidadInternetMbps`  | Velocidad media de conexión a internet (Mbps)                               |
+| `trabajoRemoto`          | Índice de adopción de trabajo remoto (0–100)                                |
+| `puntuacionTecnologica`  | Puntuación global de madurez tecnológica del país (0–100)                  |
 
-Cada país incluye también: hubs principales, empresas destacadas, visa nómada digital, tipo impositivo aproximado y desglose salarial por seniority.
+Cada país incluye también: hubs principales, empresas destacadas, visa nómada digital, tipo impositivo aproximado y desglose salarial orientativo por seniority (Junior / Mid / Senior / Lead).
 
-> **Nota:** Los datos son representativos para demostración técnica. No provienen de una API en tiempo real.
+> **Nota:** Los datos son orientativos para demostrar la arquitectura y el diseño de la interfaz. No provienen de una API en tiempo real.
 >
 > La estructura de tipos está diseñada para que sustituir el dataset estático por una fuente de datos externa sea un cambio mínimo y localizado en `src/data/paises.ts`.
+
+---
+
+## 📚 Fuentes y Metodología
+
+### Qué representa la referencia salarial
+
+Referencia salarial para perfiles de software engineering. Los valores son estimaciones basadas en rangos de informes sectoriales de 2023-2024 (Glassdoor, Hays, BLS, InfoJobs y fuentes locales). Pueden variar según experiencia, ciudad, empresa y fuente.
+
+- **Estados Unidos:** $133.080 corresponden a la **mediana estadística oficial** para Software Developers (SOC 15-1252) publicada por el U.S. Bureau of Labor Statistics (BLS, OEWS May 2024).
+- **España:** Basado en el Informe InfoJobs/Esade sobre el Mercado Laboral 2024, donde el promedio bruto ofertado en programación se situó en 37.999 € anuales (~41.000 USD), complementado con rangos para perfiles de ingeniería de software.
+- **Resto de países:** Estimaciones a partir de rangos publicados en informes sectoriales y plataformas especializadas en compensación tecnológica.
+
+### Año de los datos
+
+Los datos salariales se basan en informes, estadísticas oficiales y encuestas del período **2023–2024**.
+
+### Fuentes utilizadas
+
+| Fuente | Tipo de dato / Cobertura | Ámbito |
+| ------ | ------------------------ | ------ |
+| **U.S. Bureau of Labor Statistics (BLS)** | Mediana estadística oficial (OEWS May 2024) | Estados Unidos |
+| **InfoJobs / Esade** | Salario promedio ofertado en vacantes tech 2024 | España |
+| **relocate.me / ravio.com** | Benchmarks salariales tech y rangos de contratación 2024 | Europa |
+| **nextleveljobs.eu** | Rangos salariales de ingeniería de software | Benelux y Europa Central |
+| **CodersLink** | Mexico Tech Salary Report 2024 | México |
+| **Hays** | Salary Guide Tech 2024 | Australia / UK |
+| **TokyoDev / japan-dev.com** | Encuesta de salarios para desarrolladores internacionales | Japón |
+| **AmbitionBox / Glassdoor** | Salarios autoreportados por la comunidad de desarrolladores | Global / Asia |
+| **PayScale / Salary.com** | Estimaciones salariales por rol y experiencia | Global |
+
+### Criterio de conversión de moneda
+
+Los salarios publicados en moneda local se han convertido a USD usando tipos de cambio de referencia de **2024** (EUR/USD ≈ 1.08, GBP/USD ≈ 1.27, CAD/USD ≈ 0.74, AUD/USD ≈ 0.65, JPY/USD ≈ 0.0067, SEK/USD ≈ 0.095, PLN/USD ≈ 0.25).
+
+### Desglose por experiencia (Junior / Mid / Senior / Lead)
+
+El desglose por niveles de experiencia representa **estimaciones orientativas** para ilustrar la progresión salarial típica dentro de cada mercado. No son datos censales directos, sino estimaciones proporcionales derivadas de los rangos de cada mercado.
+
+### Aviso importante
+
+> Los valores son **referencias orientativas** para perfiles tecnológicos y pueden variar según experiencia, ciudad, empresa y fuente.
+>
+> **Este proyecto no garantiza ni aconseja ningún salario concreto.** Su propósito es ofrecer una visualización técnica y comparativa entre ecosistemas tecnológicos.
 
 ---
 

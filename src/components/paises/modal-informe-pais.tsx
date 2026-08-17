@@ -197,7 +197,7 @@ export function ModalInformePais({
                   {/* Tarjetas resumen */}
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     <div className="rounded-2xl border border-border bg-secondary/30 p-4">
-                      <p className="text-xs text-muted-foreground">Salario Medio</p>
+                      <p className="text-xs text-muted-foreground">Referencia salarial</p>
                       <p className="mt-1 text-lg font-bold text-foreground">
                         {formatoSalario.format(pais.indicadores.salarioMedioUsd)}
                       </p>
@@ -310,11 +310,12 @@ export function ModalInformePais({
                 >
                   <div className="rounded-2xl border border-border bg-secondary/20 p-5">
                     <h3 className="text-base font-semibold text-foreground">
-                      Desglose Salarial por Nivel de Experiencia (USD / año)
+                      Desglose Salarial por Nivel de Experiencia (USD bruto / año)
                     </h3>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      Estimación bruta anual basada en salarios promedios para perfiles de
-                      ingeniería de software.
+                      Valores orientativos para perfiles de software engineering, estimados a partir
+                      de fuentes sectoriales. Pueden variar según experiencia, ciudad, empresa y
+                      fuente.
                     </p>
 
                     <div className="mt-6 h-64 w-full">
@@ -339,7 +340,7 @@ export function ModalInformePais({
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             formatter={(value: any) => [
                               `$${Number(value || 0).toLocaleString()} USD / año`,
-                              "Salario medio",
+                              "Referencia salarial (bruto)",
                             ]}
                             contentStyle={{
                               backgroundColor: "#0d1a2e",
@@ -358,11 +359,12 @@ export function ModalInformePais({
                   </div>
 
                   {/* Tabla de Niveles */}
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                    {datosSalariosGrafico.map((item) => {
-                      const netoEstimado = Math.round(
-                        item.salario * (1 - pais.ecosistema.impuestosAproximadosPorcentaje / 100),
-                      );
+                  <div>
+                    <p className="mb-3 text-xs text-muted-foreground">
+                      Desglose estimado por nivel de experiencia.
+                    </p>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                      {datosSalariosGrafico.map((item) => {
                       return (
                         <div
                           key={item.nivel}
@@ -374,16 +376,11 @@ export function ModalInformePais({
                           <p className="mt-2 text-xl font-bold" style={{ color: item.color }}>
                             ${item.salario.toLocaleString()}
                           </p>
-                          <p className="mt-1 text-[0.7rem] text-muted-foreground">Bruto / año</p>
-                          <div className="mt-3 border-t border-border/50 pt-2 text-[0.75rem]">
-                            <span className="text-muted-foreground">Neto aprox: </span>
-                            <span className="font-semibold text-foreground">
-                              ${netoEstimado.toLocaleString()}/año
-                            </span>
-                          </div>
+                          <p className="mt-1 text-[0.7rem] text-muted-foreground">Bruto / año (USD)</p>
                         </div>
                       );
                     })}
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -523,7 +520,7 @@ export function ModalInformePais({
                   {/* Resumen de Calidad de Vida */}
                   <div className="rounded-2xl border border-border bg-secondary/20 p-5">
                     <h3 className="text-sm font-semibold text-foreground">
-                      Análisis de Calidad de Vida vs Coste de Vida
+                      Análisis de Calidad de Vida
                     </h3>
                     <div className="mt-4 grid gap-3 sm:grid-cols-3">
                       <div className="rounded-xl border border-border bg-background/40 p-3">
@@ -542,10 +539,10 @@ export function ModalInformePais({
                       </div>
                       <div className="rounded-xl border border-border bg-background/40 p-3">
                         <p className="text-[0.7rem] text-muted-foreground">
-                          Retención de Salario Neto
+                          Tipo Impositivo Aprox.
                         </p>
                         <p className="mt-1 text-lg font-bold text-primary">
-                          ~{100 - pais.ecosistema.impuestosAproximadosPorcentaje}%
+                          ~{pais.ecosistema.impuestosAproximadosPorcentaje}%
                         </p>
                       </div>
                     </div>

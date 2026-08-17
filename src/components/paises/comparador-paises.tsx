@@ -18,7 +18,7 @@ const formatoNumero = new Intl.NumberFormat("es-ES", {
 
 const metricas = [
   {
-    etiqueta: "Salario medio",
+    etiqueta: "Referencia salarial",
     obtenerValor: (pais: Pais) => pais.indicadores.salarioMedioUsd,
     formatear: (valor: number) => formatoSalario.format(valor),
   },

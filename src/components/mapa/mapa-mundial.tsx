@@ -64,7 +64,7 @@ const formatoNumero = new Intl.NumberFormat("es-ES", {
 });
 
 const etiquetasIndicadores: Record<IndicadorMapa, string> = {
-  salarioMedioUsd: "Salario medio",
+  salarioMedioUsd: "Referencia salarial",
   empresasTecnologicas: "Empresas tecnológicas",
   empresasIa: "Empresas de IA",
   velocidadInternetMbps: "Velocidad de internet",
@@ -437,7 +437,7 @@ export function MapaMundial({
 
             <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-border pt-4">
               <div>
-                <dt className="text-xs text-muted-foreground">Salario medio</dt>
+                <dt className="text-xs text-muted-foreground">Referencia salarial</dt>
                 <dd className="mt-1 text-sm font-semibold">
                   {formatoSalario.format(paisSeleccionado.indicadores.salarioMedioUsd)}
                 </dd>

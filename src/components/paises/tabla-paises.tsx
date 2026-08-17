@@ -188,10 +188,10 @@ export function TablaPaises({
                   <button
                     type="button"
                     onClick={() => cambiarOrden("salarioMedioUsd")}
-                    aria-label="Ordenar por salario medio"
+                    aria-label="Ordenar por referencia salarial"
                     className="flex items-center gap-1 hover:text-foreground"
                   >
-                    Salario Medio <ArrowUpDown className="size-3" />
+                    Ref. Salarial <ArrowUpDown className="size-3" />
                   </button>
                 </th>
                 <th className="px-4 py-3 font-semibold">

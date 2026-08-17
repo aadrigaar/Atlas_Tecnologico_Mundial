@@ -34,7 +34,7 @@ export function ResumenPais({
   alAbrirInforme,
 }: PropiedadesResumenPais) {
   const metricas = [
-    { etiqueta: "Salario medio", valor: formatoSalario.format(pais.indicadores.salarioMedioUsd) },
+    { etiqueta: "Referencia salarial", valor: formatoSalario.format(pais.indicadores.salarioMedioUsd) },
     {
       etiqueta: "Empresas tech",
       valor: formatoNumero.format(pais.indicadores.empresasTecnologicas),

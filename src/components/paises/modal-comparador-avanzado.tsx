@@ -99,7 +99,7 @@ export function ModalComparadorAvanzado({
       ...paises.reduce((acc, p) => ({ ...acc, [p.nombre]: calcularPoderAdquisitivo(p) }), {}),
     },
     {
-      indicador: "Salario Relativo",
+      indicador: "Ref. Salarial Relativa",
       ...paises.reduce(
         (acc, p) => ({
           ...acc,
@@ -156,7 +156,7 @@ export function ModalComparadorAvanzado({
         .map(
           (p) =>
             `📌 ${p.nombre} (${p.continente})\n` +
-            `• Salario Medio: ${formatoSalario.format(p.indicadores.salarioMedioUsd)}\n` +
+            `• Referencia salarial: ${formatoSalario.format(p.indicadores.salarioMedioUsd)}\n` +
             `• Puntuación Tech: ${p.indicadores.puntuacionTecnologica}/100\n` +
             `• Poder Adquisitivo: ${calcularPoderAdquisitivo(p)}/100\n` +
             `• Internet: ${p.indicadores.velocidadInternetMbps} Mbps\n` +
@@ -316,7 +316,7 @@ export function ModalComparadorAvanzado({
                       <tbody className="divide-y divide-border/60">
                         <tr>
                           <td className="px-4 py-3 font-medium text-muted-foreground">
-                            Salario Medio Bruto (USD)
+                            Referencia Salarial Anual (USD)
                           </td>
                           {paises.map((p) => (
                             <td key={p.codigo} className="px-4 py-3 font-bold text-foreground">
@@ -490,7 +490,7 @@ export function ModalComparadorAvanzado({
                     Comparativa de Salarios por Nivel de Experiencia (USD)
                   </h3>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    Salarios medios anuales estimados para cada nivel de antigüedad.
+                    Valores orientativos para perfiles de software engineering, estimados a partir de fuentes sectoriales.
                   </p>
 
                   <div className="mt-6 h-80 w-full">
@@ -508,7 +508,7 @@ export function ModalComparadorAvanzado({
                           // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           formatter={(val: any) => [
                             `$${Number(val || 0).toLocaleString()} USD`,
-                            "Salario medio",
+                            "Referencia salarial",
                           ]}
                           contentStyle={{
                             backgroundColor: "#0d1a2e",

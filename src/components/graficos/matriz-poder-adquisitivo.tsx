@@ -79,7 +79,7 @@ export function MatrizPoderAdquisitivo({
             </p>
           </div>
           <h2 className="mt-1 text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            Salario Medio vs Coste de Vida
+            Referencia Salarial vs Coste de Vida
           </h2>
           <p className="mt-0.5 text-xs text-muted-foreground">
             Encuentra el &quot;Sweet Spot&quot; de mayor poder adquisitivo para ingenieros de
@@ -149,12 +149,12 @@ export function MatrizPoderAdquisitivo({
             <YAxis
               type="number"
               dataKey="ySalario"
-              name="Salario Medio"
+              name="Referencia Salarial"
               domain={[0, 160000]}
               tick={{ fill: "#93a4ba", fontSize: 11 }}
               tickFormatter={(v) => `$${v / 1000}k`}
               label={{
-                value: "↑ Salario Medio (USD)",
+                value: "↑ Referencia Salarial (USD)",
                 angle: -90,
                 position: "insideLeft",
                 fill: "#93a4ba",
@@ -180,7 +180,7 @@ export function MatrizPoderAdquisitivo({
               stroke="#ffffff26"
               strokeDasharray="4 4"
               label={{
-                value: "Salario medio mundial",
+                value: "Ref. salarial media mundial",
                 fill: "#93a4ba",
                 fontSize: 10,
                 position: "insideTopRight",
@@ -204,7 +204,7 @@ export function MatrizPoderAdquisitivo({
                     </div>
                     <div className="mt-2 space-y-1 text-xs">
                       <p className="text-muted-foreground">
-                        Salario:{" "}
+                        Ref. salarial:{" "}
                         <span className="font-semibold text-foreground">
                           {formatoSalario.format(p.indicadores.salarioMedioUsd)}
                         </span>

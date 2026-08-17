@@ -164,12 +164,12 @@ export function ModalEstadisticasGlobales({
             {/* Top Cards */}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               <div className="rounded-2xl border border-border bg-secondary/30 p-4">
-                <p className="text-xs text-muted-foreground">Salario Medio Global</p>
+                <p className="text-xs text-muted-foreground">Ref. Salarial Media Global</p>
                 <p className="mt-1 text-lg font-bold text-foreground">
                   {formatoSalario.format(salarioMedioGlobal)}
                 </p>
                 <span className="mt-1 inline-block text-[0.68rem] text-primary">
-                  Promedio 32 países
+                  Promedio {paises.length} países
                 </span>
               </div>
 
@@ -197,7 +197,7 @@ export function ModalEstadisticasGlobales({
                 <p className="text-xs text-muted-foreground">Visa Nómada Digital</p>
                 <p className="mt-1 text-lg font-bold text-primary">{porcentajeVisaNomada}%</p>
                 <span className="mt-1 inline-block text-[0.68rem] text-muted-foreground">
-                  {paisesConVisaNomada} de 32 países
+                  {paisesConVisaNomada} de {paises.length} países
                 </span>
               </div>
             </div>
@@ -263,7 +263,7 @@ export function ModalEstadisticasGlobales({
                 <div className="flex items-center gap-2 text-chart-2">
                   <Award className="size-4" />
                   <h3 className="text-sm font-semibold text-foreground">
-                    Líderes Globales en Salario Bruto
+                    Líderes en Referencia Salarial
                   </h3>
                 </div>
 

@@ -18,7 +18,7 @@ const formatoNumero = new Intl.NumberFormat("es-ES", {
 });
 
 const etiquetasIndicadores: Record<IndicadorMapa, string> = {
-  salarioMedioUsd: "Salarios",
+  salarioMedioUsd: "Referencia salarial",
   empresasTecnologicas: "Empresas tecnológicas",
   empresasIa: "Empresas de IA",
   velocidadInternetMbps: "Velocidad de internet",

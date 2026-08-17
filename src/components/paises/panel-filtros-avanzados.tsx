@@ -149,7 +149,7 @@ export function PanelFiltrosAvanzados({
             <div>
               <div className="flex justify-between text-xs">
                 <label className="font-semibold tracking-wider text-muted-foreground uppercase">
-                  Salario Medio Mínimo (USD)
+                  Referencia Salarial Mínima (USD)
                 </label>
                 <span className="font-bold text-primary">
                   ${filtros.salarioMinimoUsd.toLocaleString()} / año

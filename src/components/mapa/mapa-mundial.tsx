@@ -7,7 +7,7 @@ import {
   Map as MapaMapLibre,
   Marker,
   NavigationControl,
-  type StyleSpecification,
+  setWorkerUrl,
   type MapLayerMouseEvent,
 } from "maplibre-gl";
 
@@ -15,38 +15,13 @@ import { paises } from "@/data/paises";
 import type { IndicadorMapa } from "@/types/indicador";
 import type { Pais } from "@/types/pais";
 
-// Estilo base inline con tiles raster CartoDB Dark Matter: 100% fiable, sin CORS y sin fallos de CDN
-const ESTILO_BASE: StyleSpecification = {
-  version: 8,
-  sources: {
-    "carto-dark": {
-      type: "raster",
-      tiles: [
-        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-      ],
-      tileSize: 256,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      maxzoom: 19,
-    },
-  },
-  layers: [
-    {
-      id: "background",
-      type: "background",
-      paint: { "background-color": "#07111f" },
-    },
-    {
-      id: "carto-dark-tiles",
-      type: "raster",
-      source: "carto-dark",
-      paint: { "raster-opacity": 1 },
-    },
-  ],
-};
+// Configurar URL del web worker local de MapLibre (evita fallos de resolución en Next.js)
+if (typeof window !== "undefined") {
+  setWorkerUrl("/maplibre/maplibre-gl-worker.mjs");
+}
+
+// Estilo base oficial CARTO Dark Matter (vector tiles GL): libre, sin marcas de agua y de alta resolución
+const ESTILO_BASE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 
 const GEOJSON_URL =
   "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
@@ -215,6 +190,9 @@ export function MapaMundial({
       pitchWithRotate: false,
     });
     mapaActual.current = mapa;
+    if (typeof window !== "undefined") {
+      (window as unknown as { __map: unknown }).__map = mapa;
+    }
 
     // ResizeObserver para asegurar que el canvas se adapte si el contenedor cambia de tamaño
     const resizeObserver = new ResizeObserver(() => {
@@ -239,13 +217,21 @@ export function MapaMundial({
       new Marker({ element: marcador }).setLngLat(pais.coordenadas).addTo(mapa);
     });
 
-    // Cargar GeoJSON y crear capa coroplética
-    mapa.on("load", async () => {
+    // Añadir listener de errores para depuración
+    mapa.on("error", (e) => {
+      console.error("MAPLIBRE ERROR:", e);
+    });
+
+    // Cargar GeoJSON y crear capa coroplética de forma idempotente
+    const inicializarCapas = async () => {
+      if (mapa.getSource("paises-geojson")) return;
       mapa.resize();
 
       try {
         const response = await fetch(GEOJSON_URL);
         const geojson = await response.json();
+
+        if (mapa.getSource("paises-geojson")) return;
 
         mapa.addSource("paises-geojson", {
           type: "geojson",
@@ -329,7 +315,14 @@ export function MapaMundial({
       } catch {
         console.warn("No se pudo cargar el GeoJSON de países");
       }
-    });
+    };
+
+    if (mapa.isStyleLoaded()) {
+      inicializarCapas();
+    } else {
+      mapa.once("load", inicializarCapas);
+      mapa.once("style.load", inicializarCapas);
+    }
 
     return () => {
       resizeObserver.disconnect();
